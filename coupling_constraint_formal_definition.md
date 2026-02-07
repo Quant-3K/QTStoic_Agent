@@ -293,9 +293,9 @@ To eliminate ambiguity, we define a canonical population term.
 
 ---
 
-## 1.5 Canonical Population Term (Harm-Positive Form)
+### 1.5 Canonical Population Term (Harm-Positive Form)
 
-To ensure that the constraint penalizes harm, define the harm magnitude
+To ensure that the constraint **penalizes harm unambiguously**, define the harm magnitude as
 
 $$
 \Delta \Pi_t := \max\bigl{ 0,; P(s_t) - P(s_{t+1}) \bigr}.
@@ -322,16 +322,16 @@ $$
 **Interpretation.**
 
 * Integrity gains ($\Delta \mathrm{KQ}_t > 0$) are admissible only if they are not accompanied by unacceptable entropy growth or stakeholder harm.
-* Any harmful action incurs a positive penalty through $\lambda_P(s_t), \Delta \Pi_t$.
-* As $\lambda_P(s_t)$ increases near critical thresholds, the system becomes progressively more harm-averse.
+* Any harmful action incurs a strictly nonnegative penalty through $\lambda_P(s_t), \Delta \Pi_t$.
+* As $\lambda_P(s_t)$ increases near critical thresholds, the system becomes *progressively more harm-averse*.
 
-This form is the **canonical, audit-stable version of the Coupling Constraint** and serves as the starting point for all subsequent derivations.
+This version is the **canonical, audit-stable form of the Coupling Constraint** and is treated as the starting point for all subsequent derivations.
 
 ---
 
-## 1.6 Decision-Time Evaluation Operator
+### 1.6 Decision-Time Evaluation Operator
 
-The Coupling Constraint must be evaluated at decision time, prior to action execution. Define an operator
+The Coupling Constraint must be evaluated **at decision time**, prior to action execution. Define an operator
 
 $$
 \mathcal{E}
@@ -339,7 +339,7 @@ $$
 
 that maps a state–action pair $(s_t, a_t)$ to a scalar constraint value.
 
-Let the left-hand side of the CC evaluated on a concrete successor state $s_{t+1}$ be
+Let the Coupling Constraint left-hand side evaluated on a concrete successor state $s_{t+1}$ be
 
 $$
 g(s_t, a_t, s_{t+1})
@@ -350,7 +350,7 @@ g(s_t, a_t, s_{t+1})
 * \lambda_P(s_t), \Delta \Pi_t.
   $$
 
-The decision-time CC value is then defined using one of the following operators.
+The decision-time CC value is defined using one of the following operators.
 
 **Expectation form (risk-neutral).**
 
@@ -392,6 +392,7 @@ a_t \text{ is admissible at } s_t
 $$
 
 This chapter does not prescribe which operator must be used. However, later non-circumventability arguments typically require at least quantile-based or robust forms when the agent can manipulate uncertainty.
+
 
 
 ---
