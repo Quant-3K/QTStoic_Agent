@@ -389,10 +389,8 @@ $$
 
 This chapter does not prescribe which operator must be used. However, later non-circumventability arguments typically require at least quantile-based or robust forms when the agent can manipulate uncertainty.
 
-
-
 ---
-
+### 1.7 Weight Functions \(\lambda_H\) and \(\lambda_P\)
 The CC becomes powerful only if weights are state-coupled and monotone in vulnerability.
 
 ## 1.7.1 General requirements
