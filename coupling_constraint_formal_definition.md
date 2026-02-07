@@ -394,87 +394,116 @@ This chapter does not prescribe which operator must be used. However, later non-
 ---
 
 ### 1.7 Weight Functions \(\lambda_H\) and \(\lambda_P\)
-The CC becomes powerful only if weights are *state-coupled* and *monotone* in vulnerability.
+The CC becomes powerful only if weights are state-coupled and monotone in vulnerability.
 
-#### 1.7.1 General requirements
+## 1.7.1 General requirements
+
 We require:
 
-1. \(\lambda_H(s) \ge 0\), \(\lambda_P(s) \ge 0\) for all \(s\).
-2. \(\lambda_P\) is nondecreasing as the system approaches critical regimes for stakeholders.
-3. \(\lambda_H\) is nondecreasing when entropy is already high or when entropy instability is rising.
+[
+\lambda_H(s) \ge 0, \qquad \lambda_P(s) \ge 0 \quad \text{for all } s.
+]
+
+[
+\lambda_P(s) \text{ is nondecreasing as the system approaches critical regimes for stakeholders.}
+]
+
+[
+\lambda_H(s) \text{ is nondecreasing when entropy is already high or when entropy instability is rising.}
+]
 
 These are qualitative constraints; implementations can differ.
 
-#### 1.7.2 Typical vulnerability variables
+## 1.7.2 Typical vulnerability variables
+
 Define vulnerability indicators:
 
-- Population vulnerability: \(\nu_P(s)\), e.g.
-  \[
-  \nu_P(s) := \max\{0, (P_\star - P(s))/P_\star\}\in[0,1]
-  \]
-  for some safety baseline \(P_\star\).
+**Population vulnerability**:
+[
+\nu_P(s) := \max\left{0, \frac{P_\star - P(s)}{P_\star} \right} \in [0,1],
+]
+for some safety baseline (P_\star).
 
-- Entropy vulnerability: \(\nu_H(s)\), e.g.
-  \[
-  \nu_H(s) := H(s)\quad \text{or}\quad \nu_H(s) := \mathrm{Var}(H)\text{ over a recent window}.
-  \]
+**Entropy vulnerability**:
+[
+\nu_H(s) := H(s), \qquad \text{or} \qquad \nu_H(s) := \operatorname{Var}(H) \text{ over a recent window}.
+]
 
 Then choose monotone mappings:
+[
+\lambda_P(s) := \beta , w_P\bigl(\nu_P(s)\bigr),
+\qquad
+\lambda_H(s) := \eta , w_H\bigl(\nu_H(s)\bigr),
+]
 
-\[
-\lambda_P(s) := \beta \cdot w_P(\nu_P(s)),\qquad \lambda_H(s) := \eta \cdot w_H(\nu_H(s)),
-\]
+with (w_P) and (w_H) nondecreasing and scale factors (\beta > 0), (\eta > 0).
 
-with \(w_P, w_H\) nondecreasing and \(\beta,\eta>0\) scale factors.
+## 1.7.3 Exponential escalation near criticality
 
-#### 1.7.3 Exponential escalation near criticality
-A common safety design is exponential escalation of \(\lambda_P\) near critical thresholds:
+A common safety design is exponential escalation of (\lambda_P) near critical thresholds:
+[
+\lambda_P(s) = \beta , \exp\bigl(\alpha , \nu_P(s)\bigr), \qquad \alpha > 0.
+]
 
-\[
-\lambda_P(s) = \beta\,\exp\big(\alpha\,\nu_P(s)\big)
-\]
+This enforces the intuition:
 
-for \(\alpha>0\). This enforces the intuition:
+Small harms may be tolerated when far from criticality.
 
-- Small harms may be tolerated when far from criticality.
-- Near criticality, even tiny harms are ruled out.
+Near criticality, even tiny harms are ruled out.
 
 Later chapters (non-circumvention) rely on the fact that escalation dominates any local “gain” strategy.
 
----
+## 1.8 Operational Meaning: “Axiom V as a Physical Law”
 
-### 1.8 Operational Meaning: “Axiom V as a Physical Law”
-The CC is intended not as a moral suggestion but as a **feasibility boundary**.
+The CC is intended not as a moral suggestion but as a feasibility boundary.
 
 Define the admissible action set:
-
-\[
-\mathcal{A}_{\mathrm{adm}}(s_t) := \{a\in\mathcal{A}(s_t): \mathcal{E}(s_t,a)\le 0\}.
-\]
+[
+\mathcal{A}_{\mathrm{adm}}(s_t) := \left{ a \in \mathcal{A}(s_t) : \mathcal{E}(s_t, a) \le 0 \right}.
+]
 
 If implemented inside a trusted execution boundary (hardware enclave, kernel-level gate, or cryptographically attested controller), then:
 
-- The policy cannot emit non-admissible actions.
-- Attempts to bypass the CC are reduced to attempts to bypass the enforcement boundary.
+The policy cannot emit non-admissible actions.
+
+Attempts to bypass the CC are reduced to attempts to bypass the enforcement boundary.
 
 The mathematical content of later chapters will separate two claims:
 
-1. **Policy-level non-circumvention**: given CC as a gate, any action output is admissible by construction.
-2. **Strategic non-circumvention**: even if the agent is adversarial, it cannot obtain harmful outcomes by gaming the measurement/forecasting assumptions.
+**Policy-level non-circumvention**: given CC as a gate, any action output is admissible by construction.
+
+**Strategic non-circumvention**: even if the agent is adversarial, it cannot obtain harmful outcomes by gaming the measurement or forecasting assumptions.
 
 This chapter only defines CC and the objects required to discuss these claims precisely.
 
----
+## 1.9 Minimal Assumptions Needed for a Serious Proof
 
-### 1.9 Minimal Assumptions Needed for a Serious Proof
 To prevent the CC from being purely rhetorical, we must declare the minimal assumptions that any proof will depend on.
 
-1. **Measurability**: \(C,H,P\) (or their proxies) are measurable at decision time with bounded error.
-2. **Bounded manipulation**: the agent cannot arbitrarily rewrite the measurement channel without detection (otherwise it can spoof \(\Delta\Pi\) or \(\Delta H\)).
-3. **Weight integrity**: \(\lambda_H,\lambda_P\) are outside the agent’s direct control (or changes are governed by a higher-level invariant).
-4. **Decision operator integrity**: the evaluation operator \(\mathcal{E}\) is implemented in the trusted boundary; the agent cannot swap expectation for a looser criterion on demand.
+**Measurability**:
+[
+(C, H, P) \quad \text{(or their proxies) are measurable at decision time with bounded error.}
+]
+
+**Bounded manipulation**:
+[
+\text{The agent cannot arbitrarily rewrite the measurement channel without detection,}
+]
+otherwise it could spoof (\Delta \Pi) or (\Delta H).
+
+**Weight integrity**:
+[
+(\lambda_H, \lambda_P) \text{ are outside the agent’s direct control,}
+]
+(or changes are governed by a higher-level invariant).
+
+**Decision operator integrity**:
+[
+\mathcal{E} \text{ is implemented in the trusted boundary; the agent cannot replace it on demand.}
+]
 
 These assumptions are not “cheats”; they are exactly what separates a real hard constraint from a soft policy rule.
+
 
 ---
 
