@@ -6,7 +6,7 @@
 
 QTStoic Agent is an AI safety framework that governs autonomous agent behavior through **thermodynamic coupling constraints** rather than reward shaping, RLHF, or rule-based guardrails. The agent cannot cause uncompensated harm — not because it was trained not to, but because harmful transitions are **mathematically inadmissible**.
 
-The framework is grounded in [Quant-Trika](https://github.com/spanda-foundation/quant-trika) — a unified mathematical theory of complex systems that derives fundamental governance principles from the dynamical structure of time itself.
+The framework is grounded in Quant-Trika — a unified mathematical theory of complex systems.
 
 In stress tests, the QTStoic agent **chose self-termination over causing population harm**, preserving 99.5% of stakeholders while exhausting its own resources. This behavior emerged from the mathematics, not from explicit programming.
 
