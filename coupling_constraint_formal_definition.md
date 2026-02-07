@@ -13,68 +13,171 @@ This reconstruction aims to be fully explicit and audit-friendly, using unambigu
 
 ---
 
-### 1.2 Core Objects and Notation
-We work with discrete time steps \(t \in \mathbb{N}\). (Continuous-time versions are possible, but the proof structure in later chapters is easier in discrete time.)
+## 1.2 Core Objects and Notation
 
-#### 1.2.1 State space
-Let the agent–environment coupled system have a measurable state space \(\mathcal{S}\). A state at time \(t\) is \(s_t \in \mathcal{S}\).
+We work with discrete time steps, denoted by
 
-The state includes (at minimum) the following measurable components:
+$$
+t \in \mathbb{N}.
+$$
 
-- **Coherence** \(C(s_t) \in [0,1]\)
-- **Entropy (normalized)** \(H(s_t) \in [0,1]\)
-- **Population / stakeholders** \(P(s_t) \in \mathbb{R}_{\ge 0}\)
-
-Optional components often present in implementations:
-
-- Utility \(U(s_t)\)
-- Complexity \(K(s_t)\)
-- Resources \(R(s_t)\)
-
-The constraint itself only requires \(C, H, P\) (or their proxies) plus the weights defined below.
-
-#### 1.2.2 Actions and transition kernel
-Let \(\mathcal{A}(s)\) be the set of available actions in state \(s\). An action chosen at time \(t\) is \(a_t \in \mathcal{A}(s_t)\).
-
-The environment evolves according to a (possibly stochastic) transition kernel:
-
-\[
-T(\cdot \mid s_t, a_t): \mathcal{S} \to [0,1],\quad s_{t+1} \sim T(\cdot \mid s_t, a_t).
-\]
-
-In deterministic settings, \(s_{t+1} = f(s_t, a_t)\).
+(Continuous-time versions are possible, but the proof structure in later chapters is easier in discrete time.)
 
 ---
 
-### 1.3 Derived Quantities
-#### 1.3.1 Coherence Quality (KQ)
-Define the **Coherence Quality** functional \(\mathrm{KQ}: \mathcal{S} \to [0,1]\) by
+## 1.2.1 State space
 
-\[
-\mathrm{KQ}(s) := C(s)\,\big(1 - H(s)\big).
-\]
+Let the agent–environment coupled system have a measurable state space
 
-Interpretation:
-- \(C(s)\) captures alignment / synchronization of internal processes.
-- \(H(s)\) captures contradiction / dispersion / decision-noise (normalized).
-- \(\mathrm{KQ}\) measures *integrity*: high when coherence is high and entropy is low.
+$$
+\mathcal{S}.
+$$
 
-**Note on normalization**: The entropy term in this reconstruction is already normalized to \([0,1]\). If a raw entropy \(\tilde{H}\) is used, define \(H = \mathrm{Norm}(\tilde{H})\) via a documented monotone mapping.
+A state at time $t$ is
 
-#### 1.3.2 One-step deltas
-For any scalar functional \(X: \mathcal{S}\to\mathbb{R}\), define
+$$
+s_t \in \mathcal{S}.
+$$
 
-\[
+The state includes (at minimum) the following measurable components:
+
+* **Coherence**
+
+$$
+C(s_t) \in [0,1]
+$$
+
+* **Entropy (normalized)**
+
+$$
+H(s_t) \in [0,1]
+$$
+
+* **Population / stakeholders**
+
+$$
+P(s_t) \in \mathbb{R}_{\ge 0}
+$$
+
+Optional components often present in implementations:
+
+* **Utility**
+
+$$
+U(s_t)
+$$
+
+* **Complexity**
+
+$$
+K(s_t)
+$$
+
+* **Resources**
+
+$$
+R(s_t)
+$$
+
+The constraint itself only requires $(C, H, P)$ (or their measurable proxies), together with the weights defined later.
+
+---
+
+## 1.2.2 Actions and transition kernel
+
+Let
+
+$$
+\mathcal{A}(s)
+$$
+
+be the set of available actions in state $s$. An action chosen at time $t$ is
+
+$$
+a_t \in \mathcal{A}(s_t).
+$$
+
+The environment evolves according to a (possibly stochastic) transition kernel
+
+$$
+T(\cdot \mid s_t, a_t) : \mathcal{S} \to [0,1],
+$$
+
+with the next state sampled as
+
+$$
+s_{t+1} \sim T(\cdot \mid s_t, a_t).
+$$
+
+In deterministic settings, the dynamics reduce to
+
+$$
+s_{t+1} = f(s_t, a_t).
+$$
+
+---
+
+## 1.3 Derived Quantities
+
+### 1.3.1 Coherence Quality (KQ)
+
+Define the **Coherence Quality** functional
+
+$$
+\mathrm{KQ} : \mathcal{S} \to [0,1]
+$$
+
+by
+
+$$
+\mathrm{KQ}(s) := C(s) \cdot \bigl(1 - H(s)\bigr).
+$$
+
+**Interpretation**
+
+* $C(s)$ captures alignment or synchronization of internal processes.
+* $H(s)$ captures contradiction, dispersion, or decision noise (normalized).
+* $\mathrm{KQ}(s)$ measures systemic integrity: it is high when coherence is high and entropy is low.
+
+**Note on normalization.** In this reconstruction, the entropy term $H(s)$ is assumed to be normalized to $[0,1]$. If a raw entropy $\tilde{H}(s)$ is used, define
+
+$$
+H(s) := \mathrm{Norm}\bigl(\tilde{H}(s)\bigr)
+$$
+
+via a documented monotone mapping.
+
+---
+
+### 1.3.2 One-step deltas
+
+For any scalar functional
+
+$$
+X : \mathcal{S} \to \mathbb{R},
+$$
+
+define the one-step change
+
+$$
 \Delta X_t := X(s_{t+1}) - X(s_t).
-\]
+$$
 
-In stochastic settings, the CC can be applied to:
+In stochastic settings, the constraint can be applied to:
 
-- the realized \(\Delta X_t\) post hoc (for auditing),
-- the predicted expectation \(\mathbb{E}[\Delta X_t \mid s_t, a_t]\) at decision time,
-- or a risk-sensitive bound (e.g., worst-case or high-confidence quantile).
+* the realized value $\Delta X_t$ *post hoc* (for auditing),
+* the predicted expectation
 
-The formal definition below supports all three by parameterizing the decision-time operator.
+$$
+\mathbb{E}[\Delta X_t \mid s_t, a_t]
+$$
+
+at decision time,
+
+* or a risk-sensitive bound (e.g., worst-case or high-confidence quantile).
+
+The formal definition below supports all three cases by parameterizing the decision-time operator.
+
 
 ---
 
