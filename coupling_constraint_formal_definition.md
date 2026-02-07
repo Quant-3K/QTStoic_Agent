@@ -312,13 +312,13 @@ The **canonical Coupling Constraint** is then
 
 $$
 \boxed{
-\Delta , \mathrm{KQ}_t
+\Delta \, \mathrm{KQ}_t
++ \lambda_H(s_t)\, \Delta H_t
++ \lambda_P(s_t)\, \Delta \Pi_t
+\le 0
+}
+$$
 
-* \lambda_H(s_t), \Delta H_t
-* \lambda_P(s_t), \Delta \Pi_t
-  \le 0
-  }
-  $$
 
 
 **Interpretation.**
