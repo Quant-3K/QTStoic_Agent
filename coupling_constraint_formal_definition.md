@@ -215,47 +215,7 @@ Q
 𝑡
 ≤
 0
-ΔKQ
-t
-	​
 
-+λ
-H
-	​
-
-(s
-t
-	​
-
-)ΔH
-t
-	​
-
-+λ
-P
-	​
-
-(s
-t
-	​
-
-)ΔP
-t
-	​
-
-≤0
-	​
-
-
-
-
-This form ensures:
-
-explicit additive structure,
-
-correct operator precedence,
-
-safe rendering in Markdown, LaTeX, and MathJax.
 
 where:
 
