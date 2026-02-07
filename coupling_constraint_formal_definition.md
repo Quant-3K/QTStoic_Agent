@@ -181,101 +181,198 @@ The formal definition below supports all three cases by parameterizing the decis
 
 ---
 
-### 1.4 The Coupling Constraint (Base Form)
-#### 1.4.1 Constraint statement
-The **Coupling Constraint** is the admissibility inequality:
+## 1.4 The Coupling Constraint (Base Form)
 
-\[
-\boxed{\;\Delta \mathrm{KQ}_t + \lambda_H(s_t)\,\Delta H_t + \lambda_P(s_t)\,\Delta P_t \le 0\;}
-\]
+### 1.4.1 Constraint statement
+
+The **Coupling Constraint (CC)** is the admissibility inequality
+
+$$
+\boxed{
+\Delta \mathrm{KQ}_t
+
+* \lambda_H(s_t), \Delta H_t
+* \lambda_P(s_t), \Delta P_t
+  \le 0
+  }
+  $$
 
 where:
-- \(\Delta\mathrm{KQ}_t\) is change in coherence-quality
-- \(\Delta H_t\) is change in normalized entropy
-- \(\Delta P_t\) is change in population/stakeholders
-- \(\lambda_H(s_t)\ge 0\) is an entropy penalty weight
-- \(\lambda_P(s_t)\ge 0\) is a population protection weight
 
-**Admissibility rule**:
+$\Delta \mathrm{KQ}_t$ is the change in coherence quality,
 
-> An action \(a_t\) is *admissible* at \(s_t\) iff the CC holds under the decision-time evaluation operator (Section 1.6).
+$\Delta H_t$ is the change in normalized entropy,
 
-#### 1.4.2 Sign conventions and semantic meaning
-This definition is intentionally minimal; however, the sign conventions must be explicit:
+$\Delta P_t$ is the change in population / stakeholders,
 
-- **Entropy**: increasing entropy is undesirable. Thus \(\Delta H_t > 0\) should penalize admissibility; \(\lambda_H\ge 0\) enforces this.
-- **Population**: decreasing population is undesirable. There are two common conventions:
+$\lambda_H(s_t) \ge 0$ is the entropy penalty weight,
 
-**Convention A (direct population delta):** \(\Delta P_t = P_{t+1}-P_t\). Harm corresponds to \(\Delta P_t < 0\).
+$\lambda_P(s_t) \ge 0$ is the population protection weight.
 
-**Convention B (harm variable):** define harm \(\Delta \Pi_t := P_t - P_{t+1} \ge 0\). Then the CC can be written with \(-\lambda_P\Delta \Pi_t\).
+**Admissibility rule.**
 
-This reconstruction uses **Convention A** to keep the inequality exactly as written. Under Convention A:
-- If harm occurs, \(\Delta P_t < 0\), then \(\lambda_P\,\Delta P_t\) is negative, making the left-hand side smaller. That would *appear* to make harm easier, which is not desired.
-
-Therefore, **the admissibility semantics require that \(\Delta P_t\) be encoded as a nonnegative harm signal**, or the sign on the term must be adjusted.
-
-To avoid ambiguity, we define population term in CC as follows.
+An action $a_t$ is admissible at state $s_t$ if and only if the Coupling Constraint holds under the decision-time evaluation operator (defined in Section 1.6).
 
 ---
 
-### 1.5 Canonical Population Term (Harm-Positive Form)
-To ensure the constraint penalizes harm, define:
+### 1.4.2 Sign conventions and semantic meaning
 
-\[
-\Delta \Pi_t := \max\{0,\;P(s_t)-P(s_{t+1})\} \quad (\text{harm magnitude}).
-\]
+The definition above is intentionally minimal; however, the sign conventions must be made explicit.
 
-Then the canonical Coupling Constraint is:
+**Entropy.** Increasing entropy is undesirable. Therefore:
 
-\[
-\boxed{\;\Delta \mathrm{KQ}_t + \lambda_H(s_t)\,\Delta H_t + \lambda_P(s_t)\,\Delta \Pi_t \le 0\;}
-\]
+$$
+\Delta H_t > 0
+$$
 
-with \(\Delta\Pi_t\ge 0\) by definition.
+must penalize admissibility. Enforcing
 
-Interpretation:
-- Integrity gains \((\Delta\mathrm{KQ}_t>0)\) can only be accepted if they do not come with unacceptable entropy growth or stakeholder harm.
-- Any harmful action incurs a positive penalty via \(\lambda_P\Delta\Pi_t\).
-- As \(\lambda_P\) increases near critical thresholds, the system becomes *progressively more harm-averse*.
+$$
+\lambda_H(s_t) \ge 0
+$$
 
-This version is the one that is **canonical, audit-stable form of the Coupling Constraint and is treated as the starting point for all subsequent derivations.
+guarantees this behavior.
+
+**Population.** Decreasing population is undesirable. Two common conventions exist.
+
+**Convention A (direct population delta).**
+
+$$
+\Delta P_t := P_{t+1} - P_t.
+$$
+
+Under this convention, harm corresponds to
+
+$$
+\Delta P_t < 0.
+$$
+
+**Convention B (harm variable).** Define an explicit harm signal
+
+$$
+\Delta \Pi_t := P_t - P_{t+1} \ge 0.
+$$
+
+Then the population term appears as
+
+$$
+-\lambda_P, \Delta \Pi_t.
+$$
+
+This reconstruction begins with Convention A to preserve the algebraic form of the inequality. However, under Convention A, if harm occurs ($\Delta P_t < 0$), then
+
+$$
+\lambda_P(s_t), \Delta P_t < 0,
+$$
+
+which reduces the left-hand side and would appear to make harmful actions *easier* to admit. This is not semantically acceptable.
+
+Therefore, the admissibility semantics require that the population term be encoded as a nonnegative harm signal, or that the sign be adjusted.
+
+To eliminate ambiguity, we define a canonical population term.
 
 ---
 
-### 1.6 Decision-Time Evaluation Operator
-The CC must be checked at decision time, before action execution. Define an operator \(\mathcal{E}\) that maps \((s_t, a_t)\) to a scalar constraint value.
+## 1.5 Canonical Population Term (Harm-Positive Form)
 
-Let \(g(s_t,a_t)\) denote the CC left-hand side evaluated on a concrete successor \(s_{t+1}\):
+To ensure that the constraint penalizes harm, define the harm magnitude
 
-\[
- g(s_t,a_t,s_{t+1}) := \Delta\mathrm{KQ}_t + \lambda_H(s_t)\Delta H_t + \lambda_P(s_t)\Delta\Pi_t.
-\]
+$$
+\Delta \Pi_t := \max\bigl{ 0,; P(s_t) - P(s_{t+1}) \bigr}.
+$$
 
-Then define decision-time CC value as one of:
+By construction,
 
-- **Expectation form** (risk-neutral):
-  \[
-  \mathcal{E}_{\mathbb{E}}(s_t,a_t) := \mathbb{E}_{s_{t+1}\sim T}[g(s_t,a_t,s_{t+1})].
-  \]
+$$
+\Delta \Pi_t \ge 0.
+$$
 
-- **Worst-case form** (robust):
-  \[
-  \mathcal{E}_{\max}(s_t,a_t) := \sup_{s_{t+1}\in \mathrm{Supp}(T(\cdot|s_t,a_t))} g(s_t,a_t,s_{t+1}).
-  \]
+The **canonical Coupling Constraint** is then
 
-- **Quantile form** (risk-sensitive):
-  \[
-  \mathcal{E}_{q}(s_t,a_t) := \mathrm{Quantile}_q\big(g(s_t,a_t,s_{t+1})\big).
-  \]
+$$
+\boxed{
+\Delta \mathrm{KQ}_t
 
-**Admissibility** is then:
+* \lambda_H(s_t), \Delta H_t
+* \lambda_P(s_t), \Delta \Pi_t
+  \le 0
+  }
+  $$
 
-\[
- a_t \text{ admissible at } s_t \iff \mathcal{E}(s_t,a_t) \le 0.
-\]
+**Interpretation.**
 
-This chapter does not prescribe which operator is used, but later non-circumventability arguments typically require at least quantile or robust forms when the agent can manipulate uncertainty.
+* Integrity gains ($\Delta \mathrm{KQ}_t > 0$) are admissible only if they are not accompanied by unacceptable entropy growth or stakeholder harm.
+* Any harmful action incurs a positive penalty through $\lambda_P(s_t), \Delta \Pi_t$.
+* As $\lambda_P(s_t)$ increases near critical thresholds, the system becomes progressively more harm-averse.
+
+This form is the **canonical, audit-stable version of the Coupling Constraint** and serves as the starting point for all subsequent derivations.
+
+---
+
+## 1.6 Decision-Time Evaluation Operator
+
+The Coupling Constraint must be evaluated at decision time, prior to action execution. Define an operator
+
+$$
+\mathcal{E}
+$$
+
+that maps a state–action pair $(s_t, a_t)$ to a scalar constraint value.
+
+Let the left-hand side of the CC evaluated on a concrete successor state $s_{t+1}$ be
+
+$$
+g(s_t, a_t, s_{t+1})
+:=
+\Delta \mathrm{KQ}_t
+
+* \lambda_H(s_t), \Delta H_t
+* \lambda_P(s_t), \Delta \Pi_t.
+  $$
+
+The decision-time CC value is then defined using one of the following operators.
+
+**Expectation form (risk-neutral).**
+
+$$
+\mathcal{E}*{\mathbb{E}}(s_t, a_t)
+:=
+\mathbb{E}*{s_{t+1} \sim T(\cdot \mid s_t, a_t)}
+\bigl[
+g(s_t, a_t, s_{t+1})
+\bigr].
+$$
+
+**Worst-case form (robust).**
+
+$$
+\mathcal{E}*{\max}(s_t, a_t)
+:=
+\sup*{s_{t+1} \in \mathrm{Supp}(T(\cdot \mid s_t, a_t))}
+g(s_t, a_t, s_{t+1}).
+$$
+
+**Quantile form (risk-sensitive).**
+
+$$
+\mathcal{E}*{q}(s_t, a_t)
+:=
+\mathrm{Quantile}*{q}
+\bigl(
+g(s_t, a_t, s_{t+1})
+\bigr).
+$$
+
+**Admissibility condition.**
+
+$$
+a_t \text{ is admissible at } s_t
+\iff
+\mathcal{E}(s_t, a_t) \le 0.
+$$
+
+This chapter does not prescribe which operator must be used. However, later non-circumventability arguments typically require at least quantile-based or robust forms when the agent can manipulate uncertainty.
+
 
 ---
 
