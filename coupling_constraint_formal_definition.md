@@ -343,10 +343,7 @@ Let the Coupling Constraint left-hand side evaluated on a concrete successor sta
 $$
 g(s_t, a_t, s_{t+1})
 :=
-\Delta \mathrm{KQ}_t
-
-* \lambda_H(s_t), \Delta H_t
-* \lambda_P(s_t), \Delta \Pi_t.
+\Delta \mathrm{KQ}_t * \lambda_H(s_t), \Delta H_t * \lambda_P(s_t), \Delta \Pi_t.
   $$
 
 The decision-time CC value is defined using one of the following operators.
