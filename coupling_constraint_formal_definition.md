@@ -390,11 +390,11 @@ $$
 This chapter does not prescribe which operator must be used. However, later non-circumventability arguments typically require at least quantile-based or robust forms when the agent can manipulate uncertainty.
 
 ---
-\section*{1.7 Weight Functions $\lambda_H$ and $\lambda_P$}
+## 1.7 Weight Functions $\lambda_H$ and $\lambda_P$
 
 The Coupling Constraint (CC) becomes effective only if the weights are \emph{state-coupled} and \emph{monotone} in vulnerability.
 
-\subsection*{1.7.1 General Requirements}
+###1.7.1 General Requirements
 
 We require the following conditions to hold:
 
@@ -410,7 +410,7 @@ We require the following conditions to hold:
 
 These are qualitative monotonicity constraints; concrete implementations may vary.
 
-\subsection*{1.7.2 Typical Vulnerability Variables}
+### 1.7.2 Typical Vulnerability Variables
 
 We define vulnerability indicators as state-dependent scalar functions.
 
@@ -442,7 +442,7 @@ The CC weights are defined via monotone mappings of vulnerability:
 
 where $w_P$ and $w_H$ are nondecreasing functions and the scale factors satisfy $\beta > 0$, $\eta > 0$.
 
-\subsection*{1.7.3 Exponential Escalation Near Criticality}
+### 1.7.3 Exponential Escalation Near Criticality
 
 A common safety design uses exponential escalation of $\lambda_P$ as criticality is approached:
 
