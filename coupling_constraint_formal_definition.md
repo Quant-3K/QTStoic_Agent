@@ -295,10 +295,11 @@ To eliminate ambiguity, we define a canonical population term.
 
 ### 1.5 Canonical Population Term (Harm-Positive Form)
 
-To ensure that the constraint **penalizes harm unambiguously**, define the harm magnitude as
+
+To ensure that the constraint penalizes harm unambiguously, define the harm magnitude as
 
 $$
-\Delta \Pi_t := \max\bigl{ 0,; P(s_t) - P(s_{t+1}) \bigr}.
+\Delta \Pi_t := \max{,0,; P(s_t) - P(s_{t+1}) ,}.
 $$
 
 By construction,
@@ -311,13 +312,14 @@ The **canonical Coupling Constraint** is then
 
 $$
 \boxed{
-\Delta \mathrm{KQ}_t
+\Delta , \mathrm{KQ}_t
 
 * \lambda_H(s_t), \Delta H_t
 * \lambda_P(s_t), \Delta \Pi_t
   \le 0
   }
   $$
+
 
 **Interpretation.**
 
