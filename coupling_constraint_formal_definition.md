@@ -185,17 +185,77 @@ The formal definition below supports all three cases by parameterizing the decis
 
 ### 1.4.1 Constraint statement
 
-The **Coupling Constraint (CC)** is the admissibility inequality
+The Coupling Constraint (CC) is the admissibility inequality
 
-$$
-\boxed{
-\Delta \mathrm{KQ}_t
+Δ
+K
+Q
+𝑡
++
+𝜆
+𝐻
+(
+𝑠
+𝑡
+)
+ 
+Δ
+𝐻
+𝑡
++
+𝜆
+𝑃
+(
+𝑠
+𝑡
+)
+ 
+Δ
+𝑃
+𝑡
+≤
+0
+ΔKQ
+t
+	​
 
-* \lambda_H(s_t), \Delta H_t
-* \lambda_P(s_t), \Delta P_t
-  \le 0
-  }
-  $$
++λ
+H
+	​
+
+(s
+t
+	​
+
+)ΔH
+t
+	​
+
++λ
+P
+	​
+
+(s
+t
+	​
+
+)ΔP
+t
+	​
+
+≤0
+	​
+
+
+
+
+This form ensures:
+
+explicit additive structure,
+
+correct operator precedence,
+
+safe rendering in Markdown, LaTeX, and MathJax.
 
 where:
 
