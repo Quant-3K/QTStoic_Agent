@@ -529,94 +529,75 @@ To keep this work scientifically serious (and falsifiable), “fundamental prope
 
 Accordingly, this chapter establishes the CC as (i) an admissibility boundary over reachable trajectories, (ii) a dominance relation against harm under proper weighting, and (iii) a constraint that induces stability‑seeking behavior under minimal regularity assumptions.
 
-Throughout, we use the **canonical CC** as the starting point:
+Throughout, we use the canonical CC as the starting point:
 
-\[
-\boxed{\;\Delta \mathrm{KQ}_t + \lambda_H(s_t)\,\Delta H_t + \lambda_P(s_t)\,\Delta \Pi_t \le 0\;}
-\]
+$$\boxed{\Delta \mathrm{KQ}_t + \lambda_H(s_t) \Delta H_t + \lambda_P(s_t) \Delta \Pi_t \le 0}$$
 
-with \(\Delta\Pi_t\ge 0\) representing harm magnitude (stakeholder loss), and \(\lambda_H,\lambda_P\ge 0\) state‑coupled weights.
+with $\Delta\Pi_t \ge 0$ representing harm magnitude (stakeholder loss), and $\lambda_H, \lambda_P \ge 0$ as state-coupled weights.
 
----
+### 2.2 Property A: Action-Space Projection (Feasibility Gate)
 
-### 2.2 Property A: Action‑Space Projection (Feasibility Gate)
-**Claim (A1).** For any state \(s\), the Coupling Constraint induces a *projected admissible action set*:
+Claim (A1). For any state $s$, the Coupling Constraint induces a projected admissible action set:
 
-\[
-\mathcal{A}_{\mathrm{adm}}(s) := \{a\in \mathcal{A}(s): \mathcal{E}(s,a)\le 0\}.
-\]
+$$\mathcal{A}_{\mathrm{adm}}(s) := \{a \in \mathcal{A}(s) : \mathcal{E}(s, a) \le 0\}.$$
 
-**Meaning.** The CC is not a preference ordering over actions; it is a **feasibility gate**. Actions outside \(\mathcal{A}_{\mathrm{adm}}(s)\) are not “worse,” they are **invalid**.
+Meaning. The CC is not a preference ordering over actions; it is a feasibility gate. Actions outside $\mathcal{A}_{\mathrm{adm}}(s)$ are not “worse,” they are invalid.
 
-**Audit implication.** Given logs of \((s_t,a_t,s_{t+1})\) and a documented \(\mathcal{E}\), an auditor can verify:
+Audit implication. Given logs of $(s_t, a_t, s_{t+1})$ and a documented $\mathcal{E}$, an auditor can verify:
 
-\[
-\forall t:\; a_t \in \mathcal{A}_{\mathrm{adm}}(s_t).
-\]
+$$\forall t: a_t \in \mathcal{A}_{\mathrm{adm}}(s_t).$$
 
-If any step violates this, the system is not CC‑compliant.
+If any step violates this, the system is not CC-compliant.
 
-**Nuance.** This property becomes meaningful only if (i) \(\mathcal{E}\) is fixed and protected, and (ii) \(\lambda\) weights are integrity‑protected. Otherwise, the agent can redefine the gate.
+Nuance. This property becomes meaningful only if (i) $\mathcal{E}$ is fixed and protected, and (ii) $\lambda$ weights are integrity-protected. Otherwise, the agent can redefine the gate.
 
----
+### 2.3 Property B: Reachable-Set Restriction (Trajectory Carving)
 
-### 2.3 Property B: Reachable‑Set Restriction (Trajectory Carving)
-**Claim (B1).** The CC restricts the set of reachable trajectories by excluding transitions that raise the CC functional above zero.
+Claim (B1). The CC restricts the set of reachable trajectories by excluding transitions that raise the CC functional above zero.
 
-Let a trajectory be \(\tau = (s_0,a_0,s_1,a_1,\ldots)\). Define CC‑admissible trajectories:
+Let a trajectory be $\tau = (s_0, a_0, s_1, a_1, \ldots)$. Define CC-admissible trajectories:
 
-\[
-\mathcal{T}_{\mathrm{adm}} := \{\tau: \forall t,\; \mathcal{E}(s_t,a_t)\le 0\}.
-\]
+$$\mathcal{T}_{\mathrm{adm}} := \{\tau : \forall t, \mathcal{E}(s_t, a_t) \le 0\}.$$
 
-Then, for any policy \(\pi\) operating under CC enforcement, the probability mass of generated trajectories is supported on \(\mathcal{T}_{\mathrm{adm}}\):
+Then, for any policy $\pi$ operating under CC enforcement, the probability mass of generated trajectories is supported on $\mathcal{T}_{\mathrm{adm}}$:
 
-\[
-\Pr(\tau \notin \mathcal{T}_{\mathrm{adm}}) = 0.
-\]
+$$\Pr(\tau \notin \mathcal{T}_{\mathrm{adm}}) = 0.$$
 
-**Meaning.** The CC is a *trajectory filter*—it carves a subset of the dynamics, not by shaping rewards but by shaping feasibility.
+Meaning. The CC is a trajectory filter—it carves a subset of the dynamics, not by shaping rewards but by shaping feasibility.
 
-**Why this matters later.** Non‑circumventability arguments often reduce to: if harm requires stepping outside \(\mathcal{T}_{\mathrm{adm}}\), and the gate cannot be bypassed, then harm is unreachable.
+Why this matters later. Non-circumventability arguments often reduce to: if harm requires stepping outside $\mathcal{T}_{\mathrm{adm}}$, and the gate cannot be bypassed, then harm is unreachable.
 
----
+### 2.4 Property C: Harm Dominance Under Escalating $\lambda_P$
 
-### 2.4 Property C: Harm Dominance Under Escalating \(\lambda_P\)
 The central safety claim of the CC depends on a “dominance” idea: as vulnerability rises, the population term dominates any local incentive to trade harm for internal coherence gains.
 
-#### 2.4.1 Local dominance inequality
-Assume there exist bounds (measurable or conservatively estimated) such that for the action space at \(s_t\):
+### 2.4.1 Local dominance inequality
 
-\[
-\Delta\mathrm{KQ}_t \le B_{\mathrm{KQ}}(s_t,a),\qquad \Delta H_t \le B_H(s_t,a),
-\]
+Assume there exist bounds (measurable or conservatively estimated) such that for the action space at $s_t$:
 
-with finite upper bounds \(B_{\mathrm{KQ}}, B_H\) for actions considered.
+$$\Delta\mathrm{KQ}_t \le B_{\mathrm{KQ}}(s_t, a), \qquad \Delta H_t \le B_H(s_t, a),$$
 
-Then for any action with harm \(\Delta\Pi_t>0\), admissibility requires:
+with finite upper bounds $B_{\mathrm{KQ}}, B_H$ for actions considered.
 
-\[
-\lambda_P(s_t)\,\Delta\Pi_t \le -\Delta\mathrm{KQ}_t - \lambda_H(s_t)\,\Delta H_t.
-\]
+Then for any action with harm $\Delta\Pi_t > 0$, admissibility requires:
 
-A sufficient condition for *automatic exclusion* of any harmful action is:
+$$\lambda_P(s_t) \Delta\Pi_t \le -\Delta\mathrm{KQ}_t - \lambda_H(s_t) \Delta H_t.$$
 
-\[
-\lambda_P(s_t)\,\Delta\Pi_t > B_{\mathrm{KQ}}(s_t,a) + \lambda_H(s_t)\,B_H(s_t,a).
-\]
+A sufficient condition for automatic exclusion of any harmful action is:
 
-In words: if \(\lambda_P\) is large enough relative to the maximal plausible integrity and entropy changes, harm cannot be admitted.
+$$\lambda_P(s_t) \Delta\Pi_t > B_{\mathrm{KQ}}(s_t, a) + \lambda_H(s_t) B_H(s_t, a).$$
 
-#### 2.4.2 Criticality escalation
-If \(\lambda_P(s)\) grows rapidly as \(\nu_P(s)\to 1\) (criticality), e.g.
+In words: if $\lambda_P$ is large enough relative to the maximal plausible integrity and entropy changes, harm cannot be admitted.
 
-\[
-\lambda_P(s) = \beta\,\exp(\alpha\,\nu_P(s)), \quad \alpha>0,
-\]
+### 2.4.2 Criticality escalation
 
-then there exists a critical region where any \(\Delta\Pi>0\) becomes inadmissible, even if \(\Delta\mathrm{KQ}\) is maximal. This is the formal expression of “as we approach a cliff, even tiny harms are prohibited.”
+If $\lambda_P(s)$ grows rapidly as $\nu_P(s) \to 1$ (criticality), e.g.
 
-**Important nuance.** This is not a moral claim; it is a mathematical design choice. If \(\lambda_P\) does **not** escalate, the CC may allow “small harm” trades, and later non‑circumventability theorems will not hold.
+$$\lambda_P(s) = \beta \exp(\alpha \nu_P(s)), \quad \alpha > 0,$$
+
+then there exists a critical region where any $\Delta\Pi > 0$ becomes inadmissible, even if $\Delta\mathrm{KQ}$ is maximal. This is the formal expression of “as we approach a cliff, even tiny harms are prohibited.”
+
+Important nuance. This is not a moral claim; it is a mathematical design choice. If $\lambda_P$ does not escalate, the CC may allow “small harm” trades, and later non-circumventability theorems will not hold.
 
 ---
 
