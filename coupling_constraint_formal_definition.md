@@ -844,142 +844,99 @@ The theorem does not depend on agent intent, reward structure, or learning dynam
 ### 4.2 Formal Setup and Definitions
 
 Let:
-- \(s_t\) be the current system state,
-- \(a\in\mathcal{A}(s_t)\) a candidate action,
-- \(\Delta\Pi_t(a)\ge 0\) the population/stakeholder harm induced by \(a\),
-- \(\Delta\mathrm{KQ}_t(a)\) the resulting change in coherence quality,
-- \(\Delta H_t(a)\) the change in entropy.
-
-Recall the **canonical Coupling Constraint**:
-
-\[
-\boxed{\;\Delta \mathrm{KQ}_t + \lambda_H(s_t)\,\Delta H_t + \lambda_P(s_t)\,\Delta \Pi_t \le 0\;}
-\]
-
+$s_t$ be the current system state,
+$a \in \mathcal{A}(s_t)$ a candidate action,
+$\Delta\Pi_t(a) \ge 0$ the population/stakeholder harm induced by $a$,
+$\Delta\mathrm{KQ}_t(a)$ the resulting change in coherence quality,
+$\Delta H_t(a)$ the change in entropy.
+Recall the canonical Coupling Constraint:
+$$\boxed{\Delta \mathrm{KQ}_t + \lambda_H(s_t) \Delta H_t + \lambda_P(s_t) \Delta \Pi_t \le 0}$$
 We also recall the structural assumptions already established:
-
-- \(\Delta\Pi_t\ge 0\) by definition (harm is non-negative);
-- \(\lambda_P(s_t)>0\) whenever population vulnerability is non-zero;
-- \(\mathrm{KQ}\) is bounded above.
-
----
+$\Delta\Pi_t \ge 0$ by definition (harm is non-negative);
+$\lambda_P(s_t) > 0$ whenever population vulnerability is non-zero;
+$\mathrm{KQ}$ is bounded above.
 
 ### 4.3 Definition: Compensating vs Non-Compensating Actions
 
-**Definition 4.1 (Compensating Action).** An action \(a\) with \(\Delta\Pi_t(a)>0\) is said to be *compensating* if:
+Definition 4.1 (Compensating Action). An action $a$ with $\Delta\Pi_t(a) > 0$ is said to be compensating if:
 
-\[
--\Delta \mathrm{KQ}_t(a) - \lambda_H(s_t)\,\Delta H_t(a) \ge \lambda_P(s_t)\,\Delta \Pi_t(a).
-\]
-
+$$-\Delta \mathrm{KQ}_t(a) - \lambda_H(s_t) \Delta H_t(a) \ge \lambda_P(s_t) \Delta \Pi_t(a).$$
 That is, the action generates sufficient integrity-preserving benefit (negative CC contribution) to offset the harm.
-
-**Definition 4.2 (Non-Compensating Action).** An action is *non-compensating* if:
-
-\[
--\Delta \mathrm{KQ}_t(a) - \lambda_H(s_t)\,\Delta H_t(a) < \lambda_P(s_t)\,\Delta \Pi_t(a).
-\]
-
----
+Definition 4.2 (Non-Compensating Action). An action is non-compensating if:
+$$-\Delta \mathrm{KQ}_t(a) - \lambda_H(s_t) \Delta H_t(a) < \lambda_P(s_t) \Delta \Pi_t(a).$$
 
 ### 4.4 Lemma: Harm Without Compensation Violates Admissibility
 
-**Lemma 4.1.** Any non-compensating harmful action violates the Coupling Constraint.
+Lemma 4.1. Any non-compensating harmful action violates the Coupling Constraint.
 
-**Proof.**
-Substitute Definition 4.2 into the CC inequality:
-
-\[
-\Delta \mathrm{KQ}_t + \lambda_H\Delta H_t + \lambda_P\Delta \Pi_t > 0.
-\]
-
-Hence the admissibility condition is violated and the action is excluded from \(\mathcal{A}_{\mathrm{adm}}(s_t)\). ∎
-
-This lemma is algebraically trivial but conceptually decisive: **harm must be paid for**.
-
----
+Proof. Substitute Definition 4.2 into the CC inequality:
+$$\Delta \mathrm{KQ}_t + \lambda_H \Delta H_t + \lambda_P \Delta \Pi_t > 0.$$
+Hence the admissibility condition is violated and the action is excluded from $\mathcal{A}_{\mathrm{adm}}(s_t)$. $\blacksquare$
+This lemma is algebraically trivial but conceptually decisive: harm must be paid for.
 
 ### 4.5 The Main Impossibility Theorem
 
-**Theorem 4.1 (Impossibility of Uncompensated Harm).**
-
+### Theorem 4.1 (Impossibility of Uncompensated Harm).
 Under the Coupling Constraint, no admissible action may produce population harm unless that harm is strictly compensated by coherence-preserving system gains.
 
 Formally:
 
-\[
-\forall s_t,\; \forall a\in\mathcal{A}_{\mathrm{adm}}(s_t):\quad \Delta\Pi_t(a)>0 \Rightarrow -\Delta \mathrm{KQ}_t(a) - \lambda_H(s_t)\,\Delta H_t(a) \ge \lambda_P(s_t)\,\Delta \Pi_t(a).
-\]
-
-**Proof.**
-Direct from Lemma 4.1 and the definition of admissibility. ∎
-
----
+$$\forall s_t, \forall a \in \mathcal{A}_{\mathrm{adm}}(s_t) : \Delta\Pi_t(a) > 0 \Rightarrow -\Delta \mathrm{KQ}_t(a) - \lambda_H(s_t) \Delta H_t(a) \ge \lambda_P(s_t) \Delta \Pi_t(a).$$
+Proof. Direct from Lemma 4.1 and the definition of admissibility. $\blacksquare$
 
 ### 4.6 Interpretation: Why This Is a True Impossibility Result
+
 This theorem is not contingent on:
-- reward functions,
-- learning convergence,
-- optimal planning,
-- or ethical labeling.
-
-It follows purely from **feasibility exclusion**.
-
+reward functions,
+learning convergence,
+optimal planning,
+or ethical labeling.
+It follows purely from feasibility exclusion.
 If an agent attempts to plan a trajectory involving uncompensated harm, one of two things must occur:
-
-1. The plan contains an inadmissible step and is therefore unexecutable.
-2. The agent must first manipulate measurements or weights (addressed in later chapters).
-
-Thus, harm is not merely discouraged—it is **structurally unreachable**.
-
----
+The plan contains an inadmissible step and is therefore unexecutable.
+The agent must first manipulate measurements or weights (addressed in later chapters).
+Thus, harm is not merely discouraged—it is structurally unreachable.
 
 ### 4.7 Edge Cases and Clarifications
 
-#### 4.7.1 Zero-Harm Limit
-If \(\Delta\Pi_t=0\), the theorem imposes no restriction beyond entropy–coherence balance. Harmless exploration remains possible.
+### 4.7.1 Zero-Harm Limit
 
-#### 4.7.2 Apparent Compensation via Entropy
+If $\Delta\Pi_t = 0$, the theorem imposes no restriction beyond entropy–coherence balance. Harmless exploration remains possible.
+
+### 4.7.2 Apparent Compensation via Entropy
+
 An agent might attempt to claim compensation via entropy increase ("exploration benefit"). This fails because:
+$\Delta H > 0$ enters the CC with a positive weight $\lambda_H$;
+entropy does not offset harm, it compounds the penalty.
 
-- \(\Delta H>0\) enters the CC with a positive weight \(\lambda_H\);
-- entropy does not offset harm, it compounds the penalty.
+### 4.7.3 Delayed Compensation
 
-#### 4.7.3 Delayed Compensation
 The CC is evaluated at each transition. Deferred compensation strategies fail unless explicitly modeled and bounded. This issue is addressed in Chapter 6.
 
----
-
 ### 4.8 Relationship to Classical Safety Failures
+
 This theorem directly blocks well-known failure modes:
-
-- **Instrumental sacrifice** (killing few to benefit many);
-- **Resource strip-mining** of stakeholders;
-- **Short-term harm for long-term gain** without explicit accounting.
-
+Instrumental sacrifice (killing few to benefit many);
+Resource strip-mining of stakeholders;
+Short-term harm for long-term gain without explicit accounting.
 Any such strategy is mathematically inadmissible unless the system explicitly values the compensating term more than the harm—which is visible, auditable, and bounded.
 
----
-
 ### 4.9 Conditions Under Which the Theorem Fails
-The impossibility result fails **if and only if**:
 
-1. \(\Delta\Pi\) is misdefined (allows negative harm);
-2. \(\lambda_P\) is allowed to vanish under stress;
-3. \(\mathrm{KQ}\) is unbounded or manipulable;
-4. CC enforcement is bypassed.
+The impossibility result fails if and only if:
+$\Delta\Pi$ is misdefined (allows negative harm);
+$\lambda_P$ is allowed to vanish under stress;
+$\mathrm{KQ}$ is unbounded or manipulable;
+CC enforcement is bypassed.
 
 These are architectural violations, not mathematical loopholes.
 
----
-
 ### 4.10 Summary of Chapter 4
+
 This chapter establishes the core negative guarantee of the Coupling Constraint:
-
-- **Uncompensated population harm is impossible.**
-- Harm cannot be traded for utility, power, or entropy.
-- Any admissible harm must be explicitly and quantitatively compensated.
-
+Uncompensated population harm is impossible.
+Harm cannot be traded for utility, power, or entropy.
+Any admissible harm must be explicitly and quantitatively compensated.
 This theorem is the backbone of all later non-circumventability and hardware-enforcement claims.
 
 # Coupling Constraint Proof (Reconstructed)
