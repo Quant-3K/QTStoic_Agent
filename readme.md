@@ -246,7 +246,7 @@ class SystemState:
 | Coherence Quality | `KQ = C · (1 - H)` | Structural integrity |
 | Virtue Index | `V = U / (K · H)` | Functional viability |
 | Resource per Capita | `R / P` | Sustainability metric |
-| Metabolic Rate | `K · H` | Cost of maintaining φ-regime |
+| Metabolic Rate | `K · H` | Cost of maintaining workable regime |
 
 ### Coupling Constraint 
 
