@@ -390,126 +390,92 @@ $$
 This chapter does not prescribe which operator must be used. However, later non-circumventability arguments typically require at least quantile-based or robust forms when the agent can manipulate uncertainty.
 
 ---
-## 1.7 Weight Functions $\lambda_H$ and $\lambda_P$
+1.7 Weight Functions $\lambda_H$ and $\lambda_P$
 
-The Coupling Constraint (CC) becomes effective only if the weights are \emph{state-coupled} and \emph{monotone} in vulnerability.
+The CC becomes powerful only if weights are state-coupled and monotone in vulnerability.
 
-###1.7.1 General Requirements
+1.7.1 General requirements
 
-We require the following conditions to hold:
+We require:
 
-\begin{align}
-\lambda_H(s) &\ge 0, \
-\lambda_P(s) &\ge 0, \qquad \forall s.
-\end{align}
+$\lambda_H(s) \ge 0$, $\lambda_P(s) \ge 0$ for all $s$.
 
-\begin{align}
-\lambda_P(s_1) \le \lambda_P(s_2) \quad &\text{whenever } s_2 \text{ is closer to a stakeholder-critical regime than } s_1, \
-\lambda_H(s_1) \le \lambda_H(s_2) \quad &\text{whenever entropy is higher or entropy instability is increasing at } s_2.
-\end{align}
+$\lambda_P$ is nondecreasing as the system approaches critical regimes for stakeholders.
 
-These are qualitative monotonicity constraints; concrete implementations may vary.
+$\lambda_H$ is nondecreasing when entropy is already high or when entropy instability is rising.
 
-### 1.7.2 Typical Vulnerability Variables
+These are qualitative constraints; implementations can differ.
 
-We define vulnerability indicators as state-dependent scalar functions.
+1.7.2 Typical vulnerability variables
 
-\paragraph{Population vulnerability}
-\begin{equation}
-\nu_P(s) := \max\left{0, \frac{P_\star - P(s)}{P_\star} \right}, \qquad \nu_P(s) \in [0,1],
-\end{equation}
-where $P_\star$ denotes a safety baseline for population or stakeholder well-being.
+Define vulnerability indicators:
 
-\paragraph{Entropy vulnerability}
-\begin{equation}
-\nu_H(s) := H(s),
-\end{equation}
-
-or alternatively,
-
-\begin{equation}
-\nu_H(s) := \operatorname{Var}\big(H\big) \quad \text{computed over a recent temporal window}.
-\end{equation}
-
-\paragraph{Monotone weight mappings}
-
-The CC weights are defined via monotone mappings of vulnerability:
-
-\begin{align}
-\lambda_P(s) &:= \beta, w_P\bigl(\nu_P(s)\bigr), \
-\lambda_H(s) &:= \eta, w_H\bigl(\nu_H(s)\bigr),
-\end{align}
-
-where $w_P$ and $w_H$ are nondecreasing functions and the scale factors satisfy $\beta > 0$, $\eta > 0$.
-
-### 1.7.3 Exponential Escalation Near Criticality
-
-A common safety design uses exponential escalation of $\lambda_P$ as criticality is approached:
-
-\begin{equation}
-\lambda_P(s) = \beta , \exp\bigl( \alpha , \nu_P(s) \bigr), \qquad \alpha > 0.
-\end{equation}
-
-This construction enforces the following behavior:
-\begin{itemize}
-\item Small harms may be tolerated when the system is far from criticality.
-\item Near criticality, even arbitrarily small harms become inadmissible.
-\end{itemize}
-
-Later non-circumvention results rely on the fact that this exponential growth dominates any locally optimized gain strategy.
-
-\section*{1.8 Operational Meaning: Axiom V as a Physical Law}
-
-The Coupling Constraint is not a moral recommendation but a \emph{feasibility boundary}.
-
-The admissible action set at state $s_t$ is defined as
-
-\begin{equation}
-\mathcal{A}_{\mathrm{adm}}(s_t) := \bigl{ a \in \mathcal{A}(s_t) ; : ; \mathcal{E}(s_t, a) \le 0 \bigr}.
-\end{equation}
-
-When enforced inside a trusted execution boundary (e.g., hardware enclave, kernel-level gate, or cryptographically attested controller), the following properties hold:
-\begin{itemize}
-\item The policy cannot emit non-admissible actions.
-\item Any attempt to bypass the CC reduces to an attempt to breach the enforcement boundary itself.
-\end{itemize}
-
-Subsequent chapters distinguish two forms of non-circumvention:
-
-\paragraph{Policy-level non-circumvention}
-Given the CC as a gate, every emitted action is admissible by construction.
-
-\paragraph{Strategic non-circumvention}
-Even an adversarial agent cannot achieve harmful outcomes by exploiting measurement or forecasting assumptions.
-
-This section defines the CC and the formal objects required to state these claims precisely.
-
-\section*{1.9 Minimal Assumptions for a Rigorous Proof}
-
-To avoid purely rhetorical constraints, the following minimal assumptions are required:
-
-\paragraph{Measurability}
-\begin{equation}
-(C, H, P) \quad \text{(or suitable proxies)} \quad \text{are measurable at decision time with bounded error}.
-\end{equation}
-
-\paragraph{Bounded manipulation}
-The agent cannot arbitrarily rewrite or spoof the measurement channel without detection; otherwise it could falsify $\Delta \Pi$ or $\Delta H$.
-
-\paragraph{Weight integrity}
-\begin{equation}
-(\lambda_H, \lambda_P) \text{ are not under the agent's direct control,}
-\end{equation}
-except through higher-level invariants.
-
-\paragraph{Decision operator integrity}
-\begin{equation}
-\mathcal{E} \text{ is implemented inside the trusted boundary and cannot be replaced on demand}.
-\end{equation}
-
-These assumptions delineate the boundary between a hard physical constraint and a soft, defeatable policy rule.
+Population vulnerability: $\nu_P(s)$, e.g.
 
 
+$$\nu_P(s) := \max\{0, (P_\star - P(s))/P_\star\} \in [0,1]$$
+
+
+for some safety baseline $P_\star$.
+
+Entropy vulnerability: $\nu_H(s)$, e.g.
+
+
+$$\nu_H(s) := H(s) \quad \text{or} \quad \nu_H(s) := \mathrm{Var}(H) \text{ over a recent window}.$$
+
+Then choose monotone mappings:
+
+$$\lambda_P(s) := \beta \cdot w_P(\nu_P(s)), \qquad \lambda_H(s) := \eta \cdot w_H(\nu_H(s)),$$
+
+with $w_P, w_H$ nondecreasing and $\beta, \eta > 0$ scale factors.
+
+1.7.3 Exponential escalation near criticality
+
+A common safety design is exponential escalation of $\lambda_P$ near critical thresholds:
+
+$$\lambda_P(s) = \beta \exp\big(\alpha \nu_P(s)\big)$$
+
+for $\alpha > 0$. This enforces the intuition:
+
+Small harms may be tolerated when far from criticality.
+
+Near criticality, even tiny harms are ruled out.
+
+Later chapters (non-circumvention) rely on the fact that escalation dominates any local “gain” strategy.
+
+1.8 Operational Meaning: “Axiom V as a Physical Law”
+
+The CC is intended not as a moral suggestion but as a feasibility boundary.
+
+Define the admissible action set:
+
+$$\mathcal{A}_{\mathrm{adm}}(s_t) := \{a \in \mathcal{A}(s_t) : \mathcal{E}(s_t, a) \le 0\}.$$
+
+If implemented inside a trusted execution boundary (hardware enclave, kernel-level gate, or cryptographically attested controller), then:
+
+The policy cannot emit non-admissible actions.
+
+Attempts to bypass the CC are reduced to attempts to bypass the enforcement boundary.
+
+The mathematical content of later chapters will separate two claims:
+
+Policy-level non-circumvention: given CC as a gate, any action output is admissible by construction.
+
+Strategic non-circumvention: even if the agent is adversarial, it cannot obtain harmful outcomes by gaming the measurement/forecasting assumptions.
+
+This chapter only defines CC and the objects required to discuss these claims precisely.
+
+1.9 Minimal Assumptions Needed for a Serious Proof
+
+To prevent the CC from being purely rhetorical, we must declare the minimal assumptions that any proof will depend on.
+
+Measurability: $C, H, P$ (or their proxies) are measurable at decision time with bounded error.
+
+Bounded manipulation: the agent cannot arbitrarily rewrite the measurement channel without detection (otherwise it can spoof $\Delta\Pi$ or $\Delta H$).
+
+Weight integrity: $\lambda_H, \lambda_P$ are outside the agent’s direct control (or changes are governed by a higher-level invariant).
+
+Decision operator integrity: the evaluation operator $\mathcal{E}$ is implemented in the trusted boundary; the agent cannot swap expectation for a looser criterion on demand.
 
 ---
 
