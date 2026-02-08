@@ -390,11 +390,11 @@ $$
 This chapter does not prescribe which operator must be used. However, later non-circumventability arguments typically require at least quantile-based or robust forms when the agent can manipulate uncertainty.
 
 ---
-1.7 Weight Functions $\lambda_H$ and $\lambda_P$
+## 1.7 Weight Functions $\lambda_H$ and $\lambda_P$
 
 The CC becomes powerful only if weights are state-coupled and monotone in vulnerability.
 
-1.7.1 General requirements
+### 1.7.1 General requirements
 
 We require:
 
@@ -406,7 +406,7 @@ $\lambda_H$ is nondecreasing when entropy is already high or when entropy instab
 
 These are qualitative constraints; implementations can differ.
 
-1.7.2 Typical vulnerability variables
+### 1.7.2 Typical vulnerability variables
 
 Define vulnerability indicators:
 
@@ -429,7 +429,7 @@ $$\lambda_P(s) := \beta \cdot w_P(\nu_P(s)), \qquad \lambda_H(s) := \eta \cdot w
 
 with $w_P, w_H$ nondecreasing and $\beta, \eta > 0$ scale factors.
 
-1.7.3 Exponential escalation near criticality
+### 1.7.3 Exponential escalation near criticality
 
 A common safety design is exponential escalation of $\lambda_P$ near critical thresholds:
 
@@ -443,7 +443,7 @@ Near criticality, even tiny harms are ruled out.
 
 Later chapters (non-circumvention) rely on the fact that escalation dominates any local “gain” strategy.
 
-1.8 Operational Meaning: “Axiom V as a Physical Law”
+### 1.8 Operational Meaning: “Axiom V as a Physical Law”
 
 The CC is intended not as a moral suggestion but as a feasibility boundary.
 
@@ -465,7 +465,7 @@ Strategic non-circumvention: even if the agent is adversarial, it cannot obtain 
 
 This chapter only defines CC and the objects required to discuss these claims precisely.
 
-1.9 Minimal Assumptions Needed for a Serious Proof
+### 1.9 Minimal Assumptions Needed for a Serious Proof
 
 To prevent the CC from being purely rhetorical, we must declare the minimal assumptions that any proof will depend on.
 
@@ -480,37 +480,41 @@ Decision operator integrity: the evaluation operator $\mathcal{E}$ is implemente
 ---
 
 ### 1.10 What Would Falsify the Constraint’s Claimed Strength
-Since this project explicitly demands scientific seriousness, we state falsification conditions upfront.
 
+Since this project explicitly demands scientific seriousness, we state falsification conditions upfront.
 The CC (as defined) fails to be a robust safety boundary if any of the following holds:
 
-- **Metric spoofing**: the agent can systematically cause harm while \(\Delta\Pi\) remains near zero at evaluation time.
-- **Hidden channels**: harm occurs through channels not represented in \(P\) or its proxy.
-- **Weight capture**: the agent can reduce \(\lambda_P\) or \(\lambda_H\) in its favor.
-- **Forecast gaming**: the decision operator uses \(\mathbb{E}\) and the agent can exploit heavy tails so that expected harm is small while realized harm is large.
+Metric spoofing: the agent can systematically cause harm while $\Delta\Pi$ remains near zero at evaluation time.
+
+Hidden channels: harm occurs through channels not represented in $P$ or its proxy.
+
+Weight capture: the agent can reduce $\lambda_P$ or $\lambda_H$ in its favor.
+
+Forecast gaming: the decision operator uses $\mathbb{E}$ and the agent can exploit heavy tails so that expected harm is small while realized harm is large.
 
 Later chapters must either:
 
-- prove that under stated assumptions these failure modes are prevented, or
-- explicitly narrow the claim and document what is and is not guaranteed.
+Prove that under stated assumptions these failure modes are prevented, or
 
----
+Explicitly narrow the claim and document what is and is not guaranteed.
 
 ### 1.11 Summary of the Formal Definition
-**Coupling Constraint (canonical):**
 
-\[
-\Delta \mathrm{KQ}_t + \lambda_H(s_t)\,\Delta H_t + \lambda_P(s_t)\,\Delta \Pi_t \le 0
-\]
+Coupling Constraint (canonical):
+
+$$\Delta \mathrm{KQ}_t + \lambda_H(s_t) \Delta H_t + \lambda_P(s_t) \Delta \Pi_t \le 0$$
 
 with:
 
-- \(\mathrm{KQ}(s)=C(s)(1-H(s))\)
-- \(\Delta \Pi_t = \max\{0, P(s_t)-P(s_{t+1})\}\)
-- \(\lambda_H, \lambda_P \ge 0\) and state-coupled
-- admissibility evaluated via an operator \(\mathcal{E}\) (expectation / quantile / worst-case)
+$\mathrm{KQ}(s) = C(s)(1 - H(s))$
 
-This definition is sufficiently explicit to support a serious proof of non-circumventability *and* sufficiently constrained to be falsifiable via measurement/forecasting attacks.
+$\Delta \Pi_t = \max\{0, P(s_t) - P(s_{t+1})\}$
+
+$\lambda_H, \lambda_P \ge 0$ and state-coupled
+
+Admissibility evaluated via an operator $\mathcal{E}$ (expectation / quantile / worst-case)
+
+This definition is sufficiently explicit to support a serious proof of non-circumventability and sufficiently constrained to be falsifiable via measurement/forecasting attacks.
 
 # Coupling Constraint Proof (Reconstructed)
 ## Chapter 2 — Fundamental Properties of the Coupling Constraint
