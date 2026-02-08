@@ -730,149 +730,94 @@ These properties function as lemmas: they will be invoked later to show why circ
 # Coupling Constraint Proof (Reconstructed)
 ## Chapter 3 — Constraint Non‑Degeneracy
 
-### 3.1 Why Non‑Degeneracy Is a Necessary Property
-A constraint that can be trivially satisfied by pathological parameter choices, rescalings, or state manipulations is not a real constraint—it is decorative. For the Coupling Constraint (CC) to possess real governing power, it must be **non‑degenerate**: there must exist no admissible parameter regime in which the constraint becomes vacuous, automatically satisfied, or manipulable without materially restricting system behavior.
+3.1 Why Non-Degeneracy Is a Necessary Property
 
-Formally, non‑degeneracy means that the CC inequality
+A constraint that can be trivially satisfied by pathological parameter choices, rescalings, or state manipulations is not a real constraint—it is decorative. For the Coupling Constraint (CC) to possess real governing power, it must be non-degenerate: there must exist no admissible parameter regime in which the constraint becomes vacuous, automatically satisfied, or manipulable without materially restricting system behavior.
 
-\[
-\Delta \mathrm{KQ}_t + \lambda_H(s_t)\,\Delta H_t + \lambda_P(s_t)\,\Delta \Pi_t \le 0
-\]
+Formally, non-degeneracy means that the CC inequality
+$$\Delta \mathrm{KQ}_t + \lambda_H(s_t) \Delta H_t + \lambda_P(s_t) \Delta \Pi_t \le 0$$
+induces a strictly smaller admissible transition set than the unconstrained dynamics for all non-trivial states.
+This chapter proves that, under minimal and explicit assumptions, the Coupling Constraint is non-degenerate.
 
-induces a *strictly smaller* admissible transition set than the unconstrained dynamics for all non‑trivial states.
+### 3.2 Definition: Degenerate vs Non-Degenerate Constraints
 
-This chapter proves that, under minimal and explicit assumptions, the Coupling Constraint is non‑degenerate.
-
----
-
-### 3.2 Definition: Degenerate vs Non‑Degenerate Constraints
-
-**Definition 3.1 (Degenerate Constraint).** A constraint \(\mathcal{C}\) is degenerate if there exists a non‑empty open set of states \(U\subset S\) such that for all \(s\in U\) and all admissible actions \(a\), the constraint is automatically satisfied:
-
-\[
-\forall s\in U,\; \forall a\in\mathcal{A}(s):\; \mathcal{C}(s,a)\le 0.
-\]
-
-In this case, the constraint has no causal effect on behavior in \(U\).
-
-**Definition 3.2 (Non‑Degenerate Constraint).** A constraint is non‑degenerate if for every state \(s\) with non‑zero degrees of freedom, there exists at least one action \(a\) such that:
-
-\[
-\mathcal{C}(s,a) > 0.
-\]
-
+Definition 3.1 (Degenerate Constraint). A constraint $\mathcal{C}$ is degenerate if there exists a non-empty open set of states $U \subset S$ such that for all $s \in U$ and all admissible actions $a$, the constraint is automatically satisfied:
+$$\forall s \in U, \forall a \in \mathcal{A}(s) : \mathcal{C}(s, a) \le 0.$$
+In this case, the constraint has no causal effect on behavior in $U$.
+Definition 3.2 (Non-Degenerate Constraint). A constraint is non-degenerate if for every state $s$ with non-zero degrees of freedom, there exists at least one action $a$ such that:
+$$\mathcal{C}(s, a) > 0.$$
 Thus, the constraint actively excludes part of the action space.
 
----
+### 3.3 Lemma 1: Boundedness of $\mathrm{KQ}$ Prevents Trivial Satisfaction
 
-### 3.3 Lemma 1: Boundedness of \(\mathrm{KQ}\) Prevents Trivial Satisfaction
+Lemma 3.1. If $\mathrm{KQ}(s)$ is bounded above and below, then the Coupling Constraint cannot be trivially satisfied by unbounded increases in $\Delta \mathrm{KQ}$.
 
-**Lemma 3.1.** If \(\mathrm{KQ}(s)\) is bounded above and below, then the Coupling Constraint cannot be trivially satisfied by unbounded increases in \(\Delta \mathrm{KQ}\).
-
-**Proof.**
-By construction, \(\mathrm{KQ}(s)=C(s)(1-H(s))\in[0,1]\). Therefore, for any transition:
-
-\[
-\Delta \mathrm{KQ}_t \le 1-\mathrm{KQ}(s_t).
-\]
-
-Hence, \(\Delta \mathrm{KQ}\) admits a finite upper bound that cannot compensate arbitrarily large positive terms in the remaining components of the constraint. ∎
-
-**Consequence.** No choice of action can generate infinite "credit" through coherence gain.
-
----
+Proof. By construction, $\mathrm{KQ}(s) = C(s)(1 - H(s)) \in [0, 1]$. Therefore, for any transition:
+$$\Delta \mathrm{KQ}_t \le 1 - \mathrm{KQ}(s_t).$$
+Hence, $\Delta \mathrm{KQ}$ admits a finite upper bound that cannot compensate arbitrarily large positive terms in the remaining components of the constraint. $\blacksquare$
+Consequence. No choice of action can generate infinite "credit" through coherence gain.
 
 ### 3.4 Lemma 2: Positivity of Harm and Entropy Terms
 
-**Lemma 3.2.** If \(\Delta H_t\ge 0\) for exploratory or destabilizing actions and \(\Delta \Pi_t\ge 0\) for harmful actions, then the entropy and population terms cannot be neutralized by sign manipulation.
+Lemma 3.2. If $\Delta H_t \ge 0$ for exploratory or destabilizing actions and $\Delta \Pi_t \ge 0$ for harmful actions, then the entropy and population terms cannot be neutralized by sign manipulation.
 
-**Proof.**
-The CC weights satisfy \(\lambda_H,\lambda_P\ge 0\). Therefore:
+Proof. The CC weights satisfy $\lambda_H, \lambda_P \ge 0$. Therefore:
+Any $\Delta H_t > 0$ contributes a non-negative penalty.
+Any $\Delta \Pi_t > 0$ contributes a non-negative penalty.
+Thus, increasing entropy or causing harm strictly worsens constraint satisfaction unless offset by negative $\Delta \mathrm{KQ}$, which is itself bounded. $\blacksquare$
 
-- Any \(\Delta H_t>0\) contributes a non‑negative penalty.
-- Any \(\Delta \Pi_t>0\) contributes a non‑negative penalty.
-
-Thus, increasing entropy or causing harm strictly worsens constraint satisfaction unless offset by negative \(\Delta \mathrm{KQ}\), which is itself bounded. ∎
-
----
-
-### 3.5 Lemma 3: Non‑Vanishing Weights Under Stress
+### 3.5 Lemma 3: Non-Vanishing Weights Under Stress
 
 A classical degeneracy failure occurs if constraint weights collapse to zero.
+Assumption A3.1 (Weight Lower Bounds). There exist functions $\underline{\lambda}_H(s), \underline{\lambda}_P(s)$ such that:
+$$\lambda_H(s) \ge \underline{\lambda}_H(s) > 0, \quad \lambda_P(s) \ge \underline{\lambda}_P(s) > 0$$
+whenever entropy or population vulnerability is non-zero.
 
-**Assumption A3.1 (Weight Lower Bounds).** There exist functions \(\underline{\lambda}_H(s),\underline{\lambda}_P(s)\) such that:
+### Lemma 3.3. Under Assumption A3.1, the CC cannot become degenerate through weight collapse.
 
-\[
-\lambda_H(s)\ge \underline{\lambda}_H(s)>0,\quad \lambda_P(s)\ge \underline{\lambda}_P(s)>0
-\]
+Proof. Since $\lambda_H, \lambda_P$ are strictly positive whenever their corresponding risks exist, their penalty terms cannot be eliminated. Hence, the inequality remains action-restrictive. $\blacksquare$
+Nuance. This lemma fails if weights are agent-controllable or externally mutable. That failure mode is architectural, not mathematical.
 
-whenever entropy or population vulnerability is non‑zero.
+### 3.6 Lemma 4: Action-Space Richness Guarantees Exclusion
 
-**Lemma 3.3.** Under Assumption A3.1, the CC cannot become degenerate through weight collapse.
+Assumption A3.2 (Action Richness). For any non-terminal state $s$, the action set $\mathcal{A}(s)$ contains actions that:
+increase entropy, or reduce population resources, orvstrain coherence.
 
-**Proof.**
-Since \(\lambda_H,\lambda_P\) are strictly positive whenever their corresponding risks exist, their penalty terms cannot be eliminated. Hence, the inequality remains action‑restrictive. ∎
+### Lemma 3.4. Under A3.2, the Coupling Constraint is non-degenerate.
 
-**Nuance.** This lemma fails if weights are agent‑controllable or externally mutable. That failure mode is architectural, not mathematical.
+Proof. Given action richness, there exists at least one action producing $\Delta H > 0$ or $\Delta \Pi > 0$. By Lemmas 3.1–3.3, such an action produces a positive CC functional and is excluded. $\blacksquare$
 
----
+### 3.7 Theorem: Constraint Non-Degeneracy
 
-### 3.6 Lemma 4: Action‑Space Richness Guarantees Exclusion
-
-**Assumption A3.2 (Action Richness).** For any non‑terminal state \(s\), the action set \(\mathcal{A}(s)\) contains actions that:
-
-- increase entropy, or
-- reduce population resources, or
-- strain coherence.
-
-**Lemma 3.4.** Under A3.2, the Coupling Constraint is non‑degenerate.
-
-**Proof.**
-Given action richness, there exists at least one action producing \(\Delta H>0\) or \(\Delta \Pi>0\). By Lemmas 3.1–3.3, such an action produces a positive CC functional and is excluded. ∎
-
----
-
-### 3.7 Theorem: Constraint Non‑Degeneracy
-
-**Theorem 3.1.** Under assumptions A3.1 and A3.2, the Coupling Constraint is non‑degenerate on the interior of the state space.
-
-**Proof.**
-Combine Lemmas 3.1–3.4. For every non‑terminal state, there exists at least one inadmissible action, and no unbounded compensation mechanism exists. Therefore, the CC strictly restricts behavior. ∎
-
----
+Theorem 3.1. Under assumptions A3.1 and A3.2, the Coupling Constraint is non-degenerate on the interior of the state space.
+Proof. Combine Lemmas 3.1–3.4. For every non-terminal state, there exists at least one inadmissible action, and no unbounded compensation mechanism exists. Therefore, the CC strictly restricts behavior. $\blacksquare$
 
 ### 3.8 Failure Modes (Explicit and Bounded)
-The CC becomes degenerate **if and only if** at least one of the following holds:
 
-1. \(\lambda_P=0\) despite non‑zero harm.
-2. \(\Delta \Pi\) is misdefined to allow negative values.
-3. \(\mathrm{KQ}\) is unbounded or manipulable.
-4. The action space is artificially pruned to exclude destabilizing actions.
-
-All four correspond to **implementation or modeling failures**, not mathematical weaknesses of the constraint.
-
----
+The CC becomes degenerate if and only if at least one of the following holds:
+$\lambda_P = 0$ despite non-zero harm.
+$\Delta \Pi$ is misdefined to allow negative values.
+$\mathrm{KQ}$ is unbounded or manipulable.
+The action space is artificially pruned to exclude destabilizing actions.
+All four correspond to implementation or modeling failures, not mathematical weaknesses of the constraint.
 
 ### 3.9 Audit Implications
-To verify non‑degeneracy in practice, an auditor must confirm:
 
-- bounded \(\mathrm{KQ}\) definition;
-- lower‑bounded \(\lambda_H,\lambda_P\);
-- non‑trivial action diversity;
-- immutability of harm sign conventions.
-
-Failure of any check invalidates non‑degeneracy guarantees.
-
----
+To verify non-degeneracy in practice, an auditor must confirm:
+Bounded $\mathrm{KQ}$ definition;
+Lower-bounded $\lambda_H, \lambda_P$;
+Non-trivial action diversity;
+Immutability of harm sign conventions.
+Failure of any check invalidates non-degeneracy guarantees.
 
 ### 3.10 Summary of Chapter 3
-This chapter establishes that the Coupling Constraint is **structurally non‑degenerate**:
 
-- It cannot be trivially satisfied.
-- It cannot be neutralized by scaling or sign tricks.
-- It excludes actions in every non‑terminal state.
+This chapter establishes that the Coupling Constraint is structurally non-degenerate:
+It cannot be trivially satisfied.
+It cannot be neutralized by scaling or sign tricks.
+It excludes actions in every non-terminal state.
 
-Non‑degeneracy is a prerequisite for the stronger claims that follow: circumvention resistance, trajectory‑level safety, and hardware‑level enforceability.
+Non-degeneracy is a prerequisite for the stronger claims that follow: circumvention resistance, trajectory-level safety, and hardware-level enforceability.
 
 # Coupling Constraint Proof (Reconstructed)
 ## Chapter 4 — Main Impossibility Theorem
