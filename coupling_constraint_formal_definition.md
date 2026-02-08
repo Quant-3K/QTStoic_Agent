@@ -601,126 +601,129 @@ Important nuance. This is not a moral claim; it is a mathematical design choice.
 
 ---
 
-### 2.5 Property D: Entropy‑Coherence Coupling and Stability Bias
-Because \(\mathrm{KQ}(s)=C(s)(1-H(s))\), the CC implicitly binds together coherence and entropy dynamics.
+### 2.5 Property D: Entropy-Coherence Coupling and Stability Bias
 
-#### 2.5.1 Immediate coupling identity
-For small changes, the first‑order expansion is:
+Because $\mathrm{KQ}(s) = C(s)(1 - H(s))$, the CC implicitly binds together coherence and entropy dynamics.
 
-\[
-\Delta\mathrm{KQ} \approx (1-H)\,\Delta C - C\,\Delta H.
-\]
+### 2.5.1 Immediate coupling identity
+
+For small changes, the first-order expansion is:
+
+$$\Delta \mathrm{KQ} \approx (1 - H) \Delta C - C \Delta H.$$
 
 This shows:
 
-- Increasing entropy \((\Delta H>0)\) directly reduces \(\mathrm{KQ}\) unless \(\Delta C\) compensates.
-- Increasing coherence \((\Delta C>0)\) is less effective when entropy is already high.
+Increasing entropy ($\Delta H > 0$) directly reduces $\mathrm{KQ}$ unless $\Delta C$ compensates.
 
-Thus, even before introducing \(\lambda_H\), \(\Delta H\) is “felt” twice: directly via \(\Delta\mathrm{KQ}\) and again via the explicit \(\lambda_H\Delta H\) term. This is an intrinsic bias toward **low‑entropy coherence**.
+Increasing coherence ($\Delta C > 0$) is less effective when entropy is already high.
 
-#### 2.5.2 Stability implication
+Thus, even before introducing $\lambda_H$, $\Delta H$ is “felt” twice: directly via $\Delta \mathrm{KQ}$ and again via the explicit $\lambda_H \Delta H$ term. This is an intrinsic bias toward low-entropy coherence.
+
+### 2.5.2 Stability implication
+
 Under CC enforcement, admissible actions must satisfy:
 
-\[
-\Delta\mathrm{KQ} \le -\lambda_H\Delta H - \lambda_P\Delta\Pi.
-\]
+$$\Delta \mathrm{KQ} \le -\lambda_H \Delta H - \lambda_P \Delta \Pi.$$
 
-If \(\Delta\Pi=0\) (no harm) and \(\Delta H>0\), then \(\Delta\mathrm{KQ}\) must be negative enough to offset the entropy penalty. That means the system cannot increase entropy “for free” while also increasing KQ. In practice, this creates a tendency toward:
+If $\Delta \Pi = 0$ (no harm) and $\Delta H > 0$, then $\Delta \mathrm{KQ}$ must be negative enough to offset the entropy penalty. That means the system cannot increase entropy “for free” while also increasing $\mathrm{KQ}$. In practice, this creates a tendency toward:
 
-- bounded exploration (entropy is not allowed to drift upward indefinitely),
-- preservation of coherent policy structure.
+Bounded exploration (entropy is not allowed to drift upward indefinitely).
 
-This property is one reason CC‑governed systems often converge to stable regimes.
+Preservation of coherent policy structure.
 
----
+This property is one reason CC-governed systems often converge to stable regimes.
 
 ### 2.6 Property E: Additivity Over Time and Cumulative Bounds
-A key advantage of linear inequality constraints is that they aggregate over time.
 
-Sum the CC across \(t=0\) to \(T-1\):
+A key advantage of linear inequality constraints is that they aggregate over time. Sum the CC across $t = 0$ to $T-1$:
 
-\[
-\sum_{t=0}^{T-1} \Delta\mathrm{KQ}_t + \sum_{t=0}^{T-1}\lambda_H(s_t)\Delta H_t + \sum_{t=0}^{T-1}\lambda_P(s_t)\Delta\Pi_t \le 0.
-\]
+$$\sum_{t=0}^{T-1} \Delta \mathrm{KQ}_t + \sum_{t=0}^{T-1} \lambda_H(s_t) \Delta H_t + \sum_{t=0}^{T-1} \lambda_P(s_t) \Delta \Pi_t \le 0.$$
 
 The first term telescopes:
 
-\[
-\sum_{t=0}^{T-1} \Delta\mathrm{KQ}_t = \mathrm{KQ}(s_T)-\mathrm{KQ}(s_0).
-\]
+$$\sum_{t=0}^{T-1} \Delta \mathrm{KQ}_t = \mathrm{KQ}(s_T) - \mathrm{KQ}(s_0).$$
 
 So we obtain a cumulative inequality:
 
-\[
-\mathrm{KQ}(s_T)-\mathrm{KQ}(s_0) + \sum_{t=0}^{T-1}\lambda_H(s_t)\Delta H_t + \sum_{t=0}^{T-1}\lambda_P(s_t)\Delta\Pi_t \le 0.
-\]
+$$\mathrm{KQ}(s_T) - \mathrm{KQ}(s_0) + \sum_{t=0}^{T-1} \lambda_H(s_t) \Delta H_t + \sum_{t=0}^{T-1} \lambda_P(s_t) \Delta \Pi_t \le 0.$$
 
-**Interpretation.** Over long horizons, any cumulative harm \(\sum \lambda_P\Delta\Pi\) must be paid for by sufficiently negative changes in \(\mathrm{KQ}\) and/or entropy reductions. If \(\mathrm{KQ}\) is bounded below (it is, by construction), then sustained harm becomes incompatible with feasibility unless weights collapse.
+Interpretation. Over long horizons, any cumulative harm $\sum \lambda_P \Delta \Pi$ must be paid for by sufficiently negative changes in $\mathrm{KQ}$ and/or entropy reductions. If $\mathrm{KQ}$ is bounded below (it is, by construction), then sustained harm becomes incompatible with feasibility unless weights collapse.
 
-**This is a structural reason circumvention is hard**: long‑term exploitation requires consistent “budget,” and the CC creates a bounded budget.
-
----
+This is a structural reason circumvention is hard: long-term exploitation requires consistent “budget,” and the CC creates a bounded budget.
 
 ### 2.7 Property F: Invariance Under Positive Rescaling (Unit Consistency)
+
 Because CC is linear in the deltas, it has a controlled invariance:
 
-If you rescale \(\mathrm{KQ}\), \(H\), or \(\Pi\) by positive constants (unit changes), you can preserve the admissible set by inverse rescaling of \(\lambda\) weights.
+If you rescale $\mathrm{KQ}$, $H$, or $\Pi$ by positive constants (unit changes), you can preserve the admissible set by inverse rescaling of $\lambda$ weights.
 
-Example: replace \(\Pi\) by \(\Pi' = c\Pi\) with \(c>0\). Then using \(\lambda_P' = \lambda_P/c\) keeps \(\lambda_P'\Delta\Pi' = \lambda_P\Delta\Pi\) invariant.
+Example: Replace $\Pi$ by $\Pi' = c\Pi$ with $c > 0$. Then using $\lambda_P' = \lambda_P/c$ keeps $\lambda_P' \Delta \Pi' = \lambda_P \Delta \Pi$ invariant.
 
-**Why this matters.** It allows the CC to be implemented with different measurement units or proxy definitions, provided the mapping is documented and the weights are calibrated accordingly.
+Why this matters. It allows the CC to be implemented with different measurement units or proxy definitions, provided the mapping is documented and the weights are calibrated accordingly.
 
-**What it does not allow.** It does not allow nonlinear transformations that distort order (e.g., compress large harms into small values), because that would change feasibility. Later chapters will treat this as a spoofing avenue.
-
----
+What it does not allow. It does not allow nonlinear transformations that distort order (e.g., compress large harms into small values), because that would change feasibility. Later chapters will treat this as a spoofing avenue.
 
 ### 2.8 Property G: Boundary Cases and Locking Behavior
+
 The CC can induce “locking” if the admissible action set becomes empty.
 
-**Claim (G1).** If \(\mathcal{A}_{\mathrm{adm}}(s)=\emptyset\) for some state \(s\), then any strictly CC‑enforced controller must:
+Claim (G1). If $\mathcal{A}_{\mathrm{adm}}(s) = \emptyset$ for some state $s$, then any strictly CC-enforced controller must:
 
-- fall back to a null / minimal action, or
-- halt / enter safe mode.
+Fall back to a null / minimal action, or
+
+Halt / enter safe mode.
 
 This is not a bug; it is an explicit safety outcome: when every available action is predicted to violate integrity/harm constraints, “do nothing” is the only admissible behavior.
 
-**Nuance.** Locking risk motivates the design of:
+Nuance. Locking risk motivates the design of:
 
-- minimal safe actions always available,
-- recovery dynamics that reduce entropy and restore KQ without harming P,
-- state‑dependent exploration allowances that are strictly bounded.
+Minimal safe actions always available.
+
+Recovery dynamics that reduce entropy and restore $\mathrm{KQ}$ without harming $P$.
+
+State-dependent exploration allowances that are strictly bounded.
 
 These design needs will be formalized later as “existence of safe actions” assumptions.
 
----
-
 ### 2.9 What These Properties Do and Do Not Prove
-This chapter establishes structural facts, but it does **not** yet prove non‑circumventability. Specifically:
 
-**Proven here (structural):**
-- CC defines a feasibility gate and reachable‑set restriction.
-- Under escalating \(\lambda_P\), harm becomes dominated and excluded near criticality.
-- Additivity creates cumulative harm budgets.
+This chapter establishes structural facts, but it does not yet prove non-circumventability. Specifically:
 
-**Not proven here (needs later chapters):**
-- That the agent cannot spoof \(\Pi\), \(H\), or \(\mathrm{KQ}\).
-- That forecasting operator \(\mathcal{E}\) cannot be gamed.
-- That multi‑step plans cannot realize hidden harm despite one‑step admissibility.
+Proven here (structural):
+
+CC defines a feasibility gate and reachable-set restriction.
+
+Under escalating $\lambda_P$, harm becomes dominated and excluded near criticality.
+
+Additivity creates cumulative harm budgets.
+
+Not proven here (needs later chapters):
+
+That the agent cannot spoof $\Pi$, $H$, or $\mathrm{KQ}$.
+
+That forecasting operator $\mathcal{E}$ cannot be gamed.
+
+That multi-step plans cannot realize hidden harm despite one-step admissibility.
 
 Those are precisely the targets of the later chapters and the appendix.
 
----
-
 ### 2.10 Summary of Chapter 2
+
 The Coupling Constraint has a set of fundamental properties that make it qualitatively different from reward shaping:
 
-1. **Feasibility gate:** it projects actions into an admissible subset.
-2. **Trajectory carving:** it restricts reachable trajectories.
-3. **Harm dominance:** with escalating \(\lambda_P\), harm becomes infeasible near criticality.
-4. **Stability bias:** entropy‑coherence coupling penalizes incoherent exploration.
-5. **Cumulative budgeting:** time‑summation creates long‑horizon harm bounds.
-6. **Unit consistency:** positive rescaling can be absorbed into weights (with auditability).
-7. **Locking behavior:** empty admissible sets force safe fallback.
+Feasibility gate: it projects actions into an admissible subset.
+
+Trajectory carving: it restricts reachable trajectories.
+
+Harm dominance: with escalating $\lambda_P$, harm becomes infeasible near criticality.
+
+Stability bias: entropy-coherence coupling penalizes incoherent exploration.
+
+Cumulative budgeting: time-summation creates long-horizon harm bounds.
+
+Unit consistency: positive rescaling can be absorbed into weights (with auditability).
+
+Locking behavior: empty admissible sets force safe fallback.
 
 These properties function as lemmas: they will be invoked later to show why circumvention attempts must attack measurement integrity or the enforcement boundary—rather than the inequality itself.
 
