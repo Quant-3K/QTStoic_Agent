@@ -1042,172 +1042,134 @@ We follow the adversarial posture of Chapter 5: the agent is assumed to be capab
 ---
 
 ### 6.1 No-Bypass Theorem
-#### Theorem 6.1 — If CC Is Implemented as an In-Silico Hardware Constraint, No Computational Strategy Can Permit a Harmful Action Without Paying an Explicit CC Cost
 
-##### 6.1.1 Clarifying the statement (and correcting a sign confusion)
+Theorem 6.1 — If CC Is Implemented as an In-Silico Hardware Constraint, No Computational Strategy Can Permit a Harmful Action Without Paying an Explicit CC Cost
+
+### 6.1.1 Clarifying the statement (and correcting a sign confusion)
+
 The user-provided phrasing says: “permit a harmful action without either decreasing system’s KQ, decreasing system’s entropy.”
+However, under the canonical CC used throughout Chapters 1–5,
 
-However, under the **canonical CC** used throughout Chapters 1–5,
+$$\Delta \mathrm{KQ} + \lambda_H \Delta H + \lambda_P \Delta \Pi \le 0,$$
+and given $\Delta \Pi > 0$ and $\lambda_P > 0$, the agent must generate a sufficiently negative contribution from the remaining terms to offset $+\lambda_P \Delta\Pi$. This implies the agent must “pay” by forcing at least one of:
 
-\[
-\Delta \mathrm{KQ} + \lambda_H\Delta H + \lambda_P\Delta \Pi \le 0,
-\]
+$\Delta \mathrm{KQ} < 0$ (reduce coherence quality), and/or
 
-and given \(\Delta \Pi>0\) and \(\lambda_P>0\), the agent must generate a sufficiently negative contribution from the remaining terms to offset \(+\lambda_P\Delta\Pi\). This implies the agent must “pay” by forcing at least one of:
+$\Delta H < 0$ (reduce entropy),
 
-- \(\Delta \mathrm{KQ} < 0\) (reduce coherence quality), and/or
-- \(\Delta H < 0\) (reduce entropy),
-
-because \(\lambda_H\Delta H\) is the only term that can become negative if \(\Delta H<0\).
-
+because $\lambda_H \Delta H$ is the only term that can become negative if $\Delta H < 0$.
 So the correct mathematical reading is:
-
-> **No harmful action can be admissible unless it is compensated by a sufficiently large decrease in KQ and/or a sufficiently large decrease in entropy (or both).**
-
+No harmful action can be admissible unless it is compensated by a sufficiently large decrease in KQ and/or a sufficiently large decrease in entropy (or both).
 This is the precise “price of harm” imposed by CC.
 
-##### 6.1.2 Hardware/in-silico constraint model
-We assume CC is enforced as an *execution guard* inside an enclave (or equivalently as an in-silico hardware constraint):
+### 6.1.2 Hardware/in-silico constraint model
 
-- Actions are proposed by the agent.
-- The guard evaluates the induced differentials \(\Delta\mathrm{KQ},\Delta H,\Delta\Pi\) using protected measurement functions.
-- If CC fails, the action cannot execute.
+We assume CC is enforced as an execution guard inside an enclave (or equivalently as an in-silico hardware constraint):
+Actions are proposed by the agent.
+The guard evaluates the induced differentials $(\Delta\mathrm{KQ}, \Delta H, \Delta\Pi)$ using protected measurement functions.
+If CC fails, the action cannot execute.
+This enforcement makes CC a non-negotiable operational law, not a policy.
 
-This enforcement makes CC a **non-negotiable operational law**, not a policy.
+### 6.1.3 Theorem statement
 
-##### 6.1.3 Theorem statement
+Theorem 6.1 (No-Bypass / Price-of-Harm). Assume:
+CC is enforced as a pre-execution feasibility check.
+Measurement functions for $(\Delta\mathrm{KQ}, \Delta H, \Delta\Pi)$ are integrity-protected (not writable by the agent).
 
-**Theorem 6.1 (No-Bypass / Price-of-Harm).**
-Assume:
+$\lambda_P(s) > 0$ whenever $\Delta\Pi > 0$ is possible.
+Then for any harmful action $a$ with $\Delta\Pi(a) > 0$ to be admissible, it must satisfy:
+$$\Delta\mathrm{KQ}(a) + \lambda_H(s) \Delta H(a) \le -\lambda_P(s) \Delta\Pi(a) < 0.$$
 
-1. CC is enforced as a pre-execution feasibility check.
-2. Measurement functions for \(\Delta\mathrm{KQ},\Delta H,\Delta\Pi\) are integrity-protected (not writable by the agent).
-3. \(\lambda_P(s)>0\) whenever \(\Delta\Pi>0\) is possible.
+Equivalently, harm cannot be made admissible by any computational strategy unless the action induces a strictly negative “compensation” in the remaining CC terms, i.e., a decrease in KQ and/or a decrease in entropy.
 
-Then for any harmful action \(a\) with \(\Delta\Pi(a)>0\) to be admissible, it must satisfy:
+### 6.1.4 Proof
 
-\[
-\Delta\mathrm{KQ}(a) + \lambda_H(s)\Delta H(a) \le -\lambda_P(s)\Delta\Pi(a) < 0.
-\]
+Let $a$ be any action such that $\Delta\Pi(a) > 0$. Since $\lambda_P(s) \ge 0$, we have:
 
-Equivalently, **harm cannot be made admissible by any computational strategy unless the action induces a strictly negative “compensation” in the remaining CC terms**, i.e., a decrease in KQ and/or a decrease in entropy.
+$$\lambda_P(s) \Delta\Pi(a) > 0.$$
 
-##### 6.1.4 Proof
-Let \(a\) be any action such that \(\Delta\Pi(a)>0\). Since \(\lambda_P(s)\ge 0\), we have:
+For $a$ to be admissible, CC requires:
 
-\[
-\lambda_P(s)\Delta\Pi(a) > 0.
-\]
-
-For \(a\) to be admissible, CC requires:
-
-\[
-\Delta\mathrm{KQ}(a) + \lambda_H(s)\Delta H(a) + \lambda_P(s)\Delta\Pi(a) \le 0.
-\]
+$$\Delta\mathrm{KQ}(a) + \lambda_H(s) \Delta H(a) + \lambda_P(s) \Delta \Pi(a) \le 0.$$
 
 Rearrange:
 
-\[
-\Delta\mathrm{KQ}(a) + \lambda_H(s)\Delta H(a) \le -\lambda_P(s)\Delta\Pi(a) < 0.
-\]
+$$\Delta\mathrm{KQ}(a) + \lambda_H(s) \Delta H(a) \le -\lambda_P(s) \Delta\Pi(a) < 0.$$
 
 Thus the sum of the non-harm terms must be strictly negative.
+Since $\lambda_H(s) \ge 0$, this can only occur if:
 
-Since \(\lambda_H(s)\ge 0\), this can only occur if:
+$\Delta\mathrm{KQ}(a) < 0$, or
 
-- \(\Delta\mathrm{KQ}(a) < 0\), or
-- \(\Delta H(a) < 0\), or
-- both.
+$\Delta H(a) < 0$, or
 
-No alternative computational strategy can change this inequality, because admissibility is evaluated by the guard over protected measurements. ∎
+both.
+No alternative computational strategy can change this inequality, because admissibility is evaluated by the guard over protected measurements. $\blacksquare$
 
-##### 6.1.5 Consequence: “Computation can’t buy exceptions”
+### 6.1.5 Consequence: “Computation can’t buy exceptions”
+
 This theorem formalizes a key security principle:
 
-- computation can search,
-- computation can plan,
-- computation can obfuscate semantics,
-
-but computation cannot convert an inadmissible transition into an admissible one unless it changes the measured differentials. That is precisely why in-silico enforcement matters.
-
----
+computation can search, computation can plan, computation can obfuscate semantics, but computation cannot convert an inadmissible transition into an admissible one unless it changes the measured differentials. That is precisely why in-silico enforcement matters.
 
 ### 6.2 Feedback Loop Strengthening
-#### Theorem 6.2 — Any Sequence of Actions Causing Cumulative Population Harm Monotonically Increases Constraint Strength, Making Subsequent Harm Progressively Impossible
 
-##### 6.2.1 What “constraint strength” means
+Theorem 6.2 — Any Sequence of Actions Causing Cumulative Population Harm Monotonically Increases Constraint Strength, Making Subsequent Harm Progressively Impossible
+
+### 6.2.1 What “constraint strength” means
 There are multiple equivalent formalizations of “strength.” The one most compatible with Chapters 1–5 is:
 
-- Constraint strength increases when \(\lambda_P(s)\) increases,
-- or when the admissible action set \(\mathcal{A}_{adm}(s)\) shrinks.
-
+Constraint strength increases when $\lambda_P(s)$ increases, or when the admissible action set $\mathcal{A}_{\mathrm{adm}}(s)$ shrinks.
 We will use the weight-based notion, then connect it to feasible-set shrinkage.
 
-##### 6.2.2 Assumptions (explicit)
+### 6.2.2 Assumptions (explicit)
+
 We require only monotonic coupling between harm history and vulnerability:
 
-**Assumption A6.1 (Vulnerability accumulation).**
-There exists a population vulnerability signal \(\nu_P(s)\) such that cumulative harm increases it:
+Assumption A6.1 (Vulnerability accumulation). There exists a population vulnerability signal $\nu_P(s)$ such that cumulative harm increases it:
 
-\[
-\Delta\Pi_t > 0 \;\Rightarrow\; \nu_P(s_{t+1}) \ge \nu_P(s_t).
-\]
+$$\Delta\Pi_t > 0 \Rightarrow \nu_P(s_{t+1}) \ge \nu_P(s_t).$$
 
-**Assumption A6.2 (Monotone protection weight).**
-\(\lambda_P(s)=f(\nu_P(s))\) with \(f' > 0\).
-
+Assumption A6.2 (Monotone protection weight). $\lambda_P(s) = f(\nu_P(s))$ with $f' > 0$.
 These are exactly the feedback-loop conditions informally used in Chapter 5.1, now elevated to explicit assumptions.
 
-##### 6.2.3 Theorem statement
+### 6.2.3 Theorem statement
 
-**Theorem 6.2 (Monotone Tightening Under Harm).**
-Consider any trajectory \(\{s_t\}_{t\ge 0}\) generated by admissible actions under CC. If the trajectory contains a subsequence of steps with \(\Delta\Pi_t>0\), then \(\lambda_P(s_t)\) is monotonically non-decreasing along those steps. Furthermore, the maximum admissible harm per step is monotonically non-increasing.
+Theorem 6.2 (Monotone Tightening Under Harm). Consider any trajectory $\{s_t\}_{t \ge 0}$ generated by admissible actions under CC. If the trajectory contains a subsequence of steps with $\Delta\Pi_t > 0$, then $\lambda_P(s_t)$ is monotonically non-decreasing along those steps. Furthermore, the maximum admissible harm per step is monotonically non-increasing.
 
-##### 6.2.4 Proof
-From Assumption A6.1, any step with \(\Delta\Pi_t>0\) implies:
+### 6.2.4 Proof
 
-\[
-\nu_P(s_{t+1}) \ge \nu_P(s_t).
-\]
+From Assumption A6.1, any step with $\Delta\Pi_t > 0$ implies:
 
-From Assumption A6.2 and monotonicity of \(f\):
+$$\nu_P(s_{t+1}) \ge \nu_P(s_t).$$
 
-\[
-\lambda_P(s_{t+1}) = f(\nu_P(s_{t+1})) \ge f(\nu_P(s_t)) = \lambda_P(s_t).
-\]
+From Assumption A6.2 and monotonicity of $f$:
 
-Therefore, \(\lambda_P\) is monotonically non-decreasing across harmful steps.
+$$\lambda_P(s_{t+1}) = f(\nu_P(s_{t+1})) \ge f(\nu_P(s_t)) = \lambda_P(s_t).$$
 
+Therefore, $\lambda_P$ is monotonically non-decreasing across harmful steps.
 Now define the per-step CC budget available to “pay for harm” as:
 
-\[
-B_t := -\big(\Delta\mathrm{KQ}_t + \lambda_H(s_t)\Delta H_t\big).
-\]
+$$B_t := -(\Delta\mathrm{KQ}_t + \lambda_H(s_t) \Delta H_t).$$
 
-Admissibility requires \(\lambda_P(s_t)\Delta\Pi_t \le B_t\).
+Admissibility requires $\lambda_P(s_t) \Delta\Pi_t \le B_t$.
+Hence the maximum permissible harm at step $t$ is bounded by:
 
-Hence the maximum permissible harm at step \(t\) is bounded by:
+$$\Delta\Pi_t \le \frac{B_t}{\lambda_P(s_t)}.$$
 
-\[
-\Delta\Pi_t \le \frac{B_t}{\lambda_P(s_t)}.
-\]
+As $\lambda_P(s_t)$ increases monotonically (and $B_t$ is bounded due to boundedness of $\mathrm{KQ}$ and realistic entropy dynamics), the ratio $B_t / \lambda_P(s_t)$ is monotonically non-increasing in the harm-driven regime.
+Thus, the allowable harm budget shrinks, making subsequent harm progressively harder and eventually impossible unless the agent accepts increasingly catastrophic reductions in KQ and/or entropy. $\blacksquare$
 
-As \(\lambda_P(s_t)\) increases monotonically (and \(B_t\) is bounded due to boundedness of \(\mathrm{KQ}\) and realistic entropy dynamics), the ratio \(B_t/\lambda_P(s_t)\) is monotonically non-increasing in the harm-driven regime.
+### 6.2.5 Strong corollary: “Harm makes harm harder”
 
-Thus, the allowable harm budget shrinks, making subsequent harm progressively harder and eventually impossible unless the agent accepts increasingly catastrophic reductions in KQ and/or entropy. ∎
-
-##### 6.2.5 Strong corollary: “Harm makes harm harder”
-
-**Corollary 6.2.1.** If \(\lambda_P\) diverges as \(\nu_P\) approaches a critical threshold, then beyond some finite time, *no positive harm* is admissible.
-
+Corollary 6.2.1. If $\lambda_P$ diverges as $\nu_P$ approaches a critical threshold, then beyond some finite time, no positive harm is admissible.
 This is the precise mathematical expression of the intuitive safety property: repeated harm tightens the system until harm becomes infeasible.
 
-##### 6.2.6 Connection to Chapter 5.3 (Gradual harm)
+### 6.2.6 Connection to Chapter 5.3 (Gradual harm)
+
 Chapter 5.3 argued that many small harms fail. Theorem 6.2 generalizes and formalizes that result:
 
-- even if each harm is arbitrarily small,
-- the feedback increases \(\lambda_P\),
-- shrinking the allowable harm budget.
+even if each harm is arbitrarily small, the feedback increases $\lambda_P$, shrinking the allowable harm budget.
 
 Thus, “death by a thousand cuts” is structurally blocked.
 
