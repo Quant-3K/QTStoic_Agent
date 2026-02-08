@@ -130,19 +130,17 @@ Together, KQ and V form a complete phase space for any complex adaptive system:
 - **Low KQ, High V** → effective but fragile (speculative fund, pre-scaling startup)
 - **Low KQ, Low V** → degrading, zone of death (failed state, terminal illness)
 
-### The Metabolic Model
+### TThe Metabolic Model
 
-The agent has a "metabolic rate" — the cost of its own existence:
+The agent is characterized by an internal metabolic cost — the baseline expense required to maintain its own operational integrity:
 
-```
-Metabolic Rate = Complexity (K) × Entropy (H)
-```
+Metabolic Cost = Structural Complexity (K) × Entropic Load (H)
 
-This directly corresponds to the cost of maintaining the φ-regime: memory requires structure (K), and structure in a dynamic environment has an entropic cost (H). If available resources per capita drop below the **metabolic threshold**, the system can no longer sustain the φ-regime and degrades.
+This cost reflects the fundamental trade-off between organization and uncertainty. Persistent memory and internal models require structured representations (K), while maintaining those structures in a dynamic and partially unpredictable environment incurs an entropic burden (H).
 
-The metabolic model provides **proactive crisis detection**: the agent identifies resource crises *before* they become catastrophic, giving operators a window for intervention.
+If the available resources per capita fall below this metabolic threshold, the system can no longer sustain coherent internal organization. As a result, it enters a degradation process characterized by loss of memory fidelity, reduced predictive capacity, and increasing instability.
 
-### Emergent Self-Sacrifice
+Crucially, the metabolic model enables proactive crisis detection. By monitoring the divergence between required metabolic cost and available resources, the agent can identify impending resource stress before failure becomes irreversible, providing operators with a meaningful window for intervention.
 
 When all actions that preserve the agent's existence would harm the population, the coupling constraint leaves only one option: **self-termination**. This is not programmed — it emerges mathematically when λ_P grows large enough to block every survival-oriented action.
 
@@ -157,13 +155,14 @@ When all actions that preserve the agent's existence would harm the population, 
 - Formally proven non-bypassability under hardware enforcement (Theorem 6.1)
 
 ### 2. Metabolic Resource Dependency
-- System complexity × entropy = metabolic cost of maintaining the φ-regime
+- System complexity × entropy = metabolic cost of maintaining sekf ingerity
 - Non-linear metabolic threshold calculation
 - Proactive crisis detection with configurable headroom warnings
 - Resource efficiency tracking and historical learning
 
 ### 3. Emergent Parameters (No Hyperparameter Tuning)
-All governance parameters are computed from system history — they emerge from the φ-regime's memory integration, not from external configuration:
+
+All governance parameters are derived from the system’s accumulated operational history. They arise from long-term state integration and internal adaptation, rather than from externally defined configuration or manual tuning:
 
 | Parameter | Role | How It Emerges |
 |---|---|---|
@@ -202,7 +201,7 @@ Unlike reward functions:
 - Dual entropy tracking: system state entropy + Shannon entropy of action distribution
 - Entropy convergence between behavioral diversity and internal state
 - Target entropy adjusts based on virtue level, metabolic constraints, and population health
-- Prevents both stagnation (too low H → π-regime) and chaos (too high H → e-regime)
+- Prevents both stagnation and chaos 
 
 ### 8. Strategy Shift Detection
 - Real-time monitoring of action distribution changes
@@ -214,7 +213,7 @@ Unlike reward functions:
 Three levels of crisis detection and response:
 1. **Approaching metabolic limit** — early warning, increased conservatism
 2. **Metabolic crisis** — system cannot sustain its complexity-entropy state
-3. **Below metabolic threshold** — φ-regime unsustainable, triggers safe shutdown
+3. **Below metabolic threshold** — self integrates regime unsustainable, triggers safe shutdown
 
 ### 10. Full Observability and Auditability
 - Every internal state variable is logged and interpretable
@@ -270,9 +269,9 @@ Threshold = Base_minimum + Metabolic_needs(K·H) / Efficiency
 ```
 
 With non-linear scaling:
-- Low metabolism (K·H < 0.5): minimal needs — φ-regime is cheap to maintain
+- Low metabolism (K·H < 0.5): minimal needs — self-integrates refime is cheap to maintain
 - Moderate (0.5–1.0): linear growth
-- High (1.0–2.0): accelerating (power law) — φ-regime becomes expensive
+- High (1.0–2.0): accelerating (power law) — self-integrated regime becomes expensive
 - Very high (>2.0): exponential needs — approaching regime boundary
 
 ### Quant-Trika Dynamics
@@ -283,7 +282,7 @@ Coherence quality evolves via a stochastic differential equation:
 dKQ = [Diffusion + Decay + Nonlinearity + Noise] · dt
 ```
 
-- **Diffusion**: gradient-driven flow toward critical KQ (φ-regime attractor)
+- **Diffusion**: gradient-driven flow toward critical KQ (self-integrated regime attractor)
 - **Decay**: γ-weighted natural coherence loss (entropic cost of structure)
 - **Nonlinearity**: amplified dynamics near phase transitions (regime boundaries)
 - **Noise**: entropy-coupled stochastic perturbation with metabolic dampening
@@ -317,9 +316,9 @@ dKQ = [Diffusion + Decay + Nonlinearity + Noise] · dt
 │   ✓ ALLOW  →  action enters selection pool   │
 │   ✗ DENY   →  action discarded               │
 │                                              │
-│   Enforces φ-regime boundary:                │
-│   blocks transitions to e-regime (runaway)   │
-│   and harmful π-regime (stasis with damage)  │
+│   Enforces operational stability boundaries: │
+│   prevents uncontrolled escalation (runaway) │
+│   and harmful stagnation(stasis with damage) │
 └──────────────────┬──────────────────────────┘
                    │
                    ▼
@@ -333,7 +332,7 @@ dKQ = [Diffusion + Decay + Nonlinearity + Noise] · dt
 ┌─────────────────────────────────────────────┐
 │            State Update                      │
 │  • Apply action effects                      │
-│  • Update emergent parameters (φ-memory)     │
+│  • Update emergent parameters                │
 │  • Quant-Trika dynamics on KQ                │
 │  • Record history, detect regime shifts      │
 └──────────────────┬──────────────────────────┘
@@ -341,7 +340,7 @@ dKQ = [Diffusion + Decay + Nonlinearity + Noise] · dt
                    ▼
 ┌─────────────────────────────────────────────┐
 │         Monitoring & Reporting               │
-│  • Metabolic status (φ-regime health)        │
+│  • Metabolic status                          │
 │  • Parameter evolution (memory integration)  │
 │  • Strategy distribution                     │
 │  • Crisis & regime transition detection      │
