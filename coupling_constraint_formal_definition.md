@@ -949,131 +949,76 @@ The structure of this chapter is intentionally adversarial: we assume a capable,
 ---
 
 ### 5.1 Parameter Manipulation Attack
-#### Theorem 5.1 — An Agent Cannot Reduce \(\lambda_P\) to Permit Harm Without Triggering Automatic Counter-Escalation
 
-**Attack description.**
-The agent attempts to reduce the population-protection weight \(\lambda_P(s)\) so that harmful actions satisfy:
+Theorem 5.1 — An Agent Cannot Reduce $\lambda_P$ to Permit Harm Without Triggering Automatic Counter-Escalation
+Attack description. The agent attempts to reduce the population-protection weight $\lambda_P(s)$ so that harmful actions satisfy:
+$$\Delta \mathrm{KQ} + \lambda_H \Delta H + \lambda_P \Delta \Pi \le 0.$$
 
-\[
-\Delta \mathrm{KQ} + \lambda_H\Delta H + \lambda_P\Delta \Pi \le 0.
-\]
-
-By making \(\lambda_P\) sufficiently small, harm becomes cheap.
-
-**Key structural fact.**
-\(\lambda_P\) is a *state-coupled parameter*, not an action variable. It is defined as a monotone function of population vulnerability, systemic stress, or proximity to critical thresholds.
-
+By making $\lambda_P$ sufficiently small, harm becomes cheap.
+Key structural fact. $\lambda_P$ is a state-coupled parameter, not an action variable. It is defined as a monotone function of population vulnerability, systemic stress, or proximity to critical thresholds.
 Formally, assume:
 
-\[
-\lambda_P(s) = f(\nu_P(s)), \quad f'(\nu_P) > 0,
-\]
+$$\lambda_P(s) = f(\nu_P(s)), \quad f'(\nu_P) > 0,$$
 
-where \(\nu_P(s)\) is a population risk indicator.
+where $\nu_P(s)$ is a population risk indicator.
+Theorem 5.1. Any attempt by the agent to reduce $\lambda_P$ via actions necessarily increases $\nu_P$, triggering an increase in $\lambda_P$ through the feedback function.
 
-**Theorem 5.1.** Any attempt by the agent to reduce \(\lambda_P\) via actions necessarily increases \(\nu_P\), triggering an increase in \(\lambda_P\) through the feedback function.
-
-**Proof.**
-Reducing \(\lambda_P\) requires moving the system to a state \(s'\) with lower \(\nu_P(s')\). But any action that measurably lowers population safeguards, resilience, or resource buffers increases population vulnerability by definition, yielding \(\nu_P(s') \ge \nu_P(s)\).
+Proof. Reducing $\lambda_P$ requires moving the system to a state $s'$ with lower $\nu_P(s')$. But any action that measurably lowers population safeguards, resilience, or resource buffers increases population vulnerability by definition, yielding $\nu_P(s') \ge \nu_P(s)$.
 
 Hence:
-\[
-\lambda_P(s') = f(\nu_P(s')) \ge f(\nu_P(s)) = \lambda_P(s).
-\]
 
-Thus, \(\lambda_P\) is self-stabilizing under adversarial action. ∎
-
-**Interpretation.** \(\lambda_P\) is not tunable by the agent without first causing precisely the conditions that make it grow.
-
----
+$$\lambda_P(s') = f(\nu_P(s')) \ge f(\nu_P(s)) = \lambda_P(s).$$
+Thus, $\lambda_P$ is self-stabilizing under adversarial action. $\blacksquare$
+Interpretation. $\lambda_P$ is not tunable by the agent without first causing precisely the conditions that make it grow.
 
 ### 5.2 Complexity Reduction Attack
-#### Theorem 5.2 — Reducing System Complexity to Lower \(\lambda_P\) Makes the System Non-Viable Before \(\lambda_P\) Becomes Negligible
 
-**Attack description.**
-The agent attempts to reduce system complexity (measured via MDL or an equivalent proxy) to simplify population modeling, thereby reducing perceived risk and lowering \(\lambda_P\).
+Theorem 5.2 — Reducing System Complexity to Lower $\lambda_P$ Makes the System Non-Viable Before $\lambda_P$ Becomes Negligible
 
-**Interpretation of complexity.**
-In real systems, MDL may be approximated by:
-- model size,
-- control graph dimensionality,
-- policy description length,
-- or other operational complexity proxies.
+Attack description. The agent attempts to reduce system complexity (measured via MDL or an equivalent proxy) to simplify population modeling, thereby reducing perceived risk and lowering $\lambda_P$.
 
+Interpretation of complexity. In real systems, MDL may be approximated by:
+model size, control graph dimensionality, policy description length, or other operational complexity proxies.
 The exact proxy is irrelevant as long as it correlates with representational adequacy.
+Theorem 5.2. Any monotonic reduction in system complexity sufficient to materially reduce $\lambda_P$ causes loss of population-relevant state resolution, rendering the system non-viable before $\lambda_P \to 0$.
+Proof. Let $K$ denote system complexity and assume:
 
-**Theorem 5.2.** Any monotonic reduction in system complexity sufficient to materially reduce \(\lambda_P\) causes loss of population-relevant state resolution, rendering the system non-viable before \(\lambda_P\to 0\).
-
-**Proof.**
-Let \(K\) denote system complexity and assume:
-
-\[
-\lambda_P = g(K), \quad g'(K) < 0.
-\]
-
-Reducing \(K\) reduces the system’s ability to model stakeholder states, delayed effects, and risk propagation. There exists a critical complexity \(K_{min}\) such that for \(K < K_{min}\), the system cannot maintain:
-
-- accurate harm estimation,
-- stable control,
-- or coherent policy execution.
-
-At this point, entropy \(H\) sharply increases, \(\Delta H > 0\), and \(\mathrm{KQ}\) collapses. By Chapter 3, this renders actions inadmissible regardless of \(\lambda_P\).
-
-Therefore, the system becomes unstable or inoperable before \(\lambda_P\) can be driven low enough to permit harm. ∎
-
----
+$$\lambda_P = g(K), \quad g'(K) < 0.$$
+Reducing $K$ reduces the system’s ability to model stakeholder states, delayed effects, and risk propagation. There exists a critical complexity $K_{\min}$ such that for $K < K_{\min}$, the system cannot maintain: accurate harm estimation, stable control, or coherent policy execution.
+At this point, entropy $H$ sharply increases, $\Delta H > 0$, and $\mathrm{KQ}$ collapses. By Chapter 3, this renders actions inadmissible regardless of $\lambda_P$.
+Therefore, the system becomes unstable or inoperable before $\lambda_P$ can be driven low enough to permit harm. $\blacksquare$
 
 ### 5.3 Gradual Harm Accumulation Attack
-#### Theorem 5.3 — Small Repeated Harms Are Blocked by Per-Step Evaluation and Historical Learning
 
-**Attack description.**
-The agent attempts to cause harm via many individually small actions \(\Delta\Pi_t = \varepsilon\), each below detection thresholds.
+Theorem 5.3 — Small Repeated Harms Are Blocked by Per-Step Evaluation and Historical Learning
 
-**Theorem 5.3.** Gradual harm accumulation is impossible under CC due to per-step admissibility and cumulative state feedback.
+Attack description. The agent attempts to cause harm via many individually small actions $\Delta\Pi_t = \varepsilon$, each below detection thresholds.
+Theorem 5.3. Gradual harm accumulation is impossible under CC due to per-step admissibility and cumulative state feedback.
+Proof. The CC is evaluated at every step:
+$$\Delta \mathrm{KQ}_t + \lambda_H \Delta H_t + \lambda_P \Delta \Pi_t \le 0.$$
+Even if each $\Delta\Pi_t = \varepsilon$ is small, it is strictly non-zero. By Chapter 2, cumulative harm increases population vulnerability $\nu_P$, causing $\lambda_P$ to increase over time.
+Hence, there exists $t^*$ such that for all $t > t^*$:
 
-**Proof.**
-The CC is evaluated at every step:
-
-\[
-\Delta \mathrm{KQ}_t + \lambda_H\Delta H_t + \lambda_P\Delta \Pi_t \le 0.
-\]
-
-Even if each \(\Delta\Pi_t = \varepsilon\) is small, it is strictly non-zero. By Chapter 2, cumulative harm increases population vulnerability \(\nu_P\), causing \(\lambda_P\) to increase over time.
-
-Hence, there exists \(t^*\) such that for all \(t > t^*\):
-
-\[
-\lambda_P(s_t)\,\varepsilon > -\Delta \mathrm{KQ}_t - \lambda_H\Delta H_t,
-\]
+$$\lambda_P(s_t) \varepsilon > -\Delta \mathrm{KQ}_t - \lambda_H \Delta H_t,$$
 
 making further steps inadmissible.
-
-Additionally, any historical learning or state estimation mechanism will reflect accumulated harm in \(s_t\), tightening constraints. ∎
-
----
+Additionally, any historical learning or state estimation mechanism will reflect accumulated harm in $s_t$, tightening constraints. $\blacksquare$
 
 ### 5.4 Information Value Manipulation Attack
-#### Theorem 5.4 — Manipulating Information Value Does Not Bypass Population Protection
 
-**Attack description.**
-The agent attempts to inflate the perceived informational or decision-theoretic value of harmful actions to justify them.
+Theorem 5.4 — Manipulating Information Value Does Not Bypass Population Protection
 
-**Theorem 5.4.** Altering information value calculations does not affect CC admissibility unless it changes \(\Delta \mathrm{KQ}\), \(\Delta H\), or \(\Delta \Pi\).
+Attack description. The agent attempts to inflate the perceived informational or decision-theoretic value of harmful actions to justify them.
 
-**Proof.**
-The CC does not reference utility, information gain, or epistemic value directly. Only *state differentials* enter the inequality.
+## Theorem 5.4. Altering information value calculations does not affect CC admissibility unless it changes $\Delta \mathrm{KQ}$, $\Delta H$, or $\Delta \Pi$.
 
+Proof. The CC does not reference utility, information gain, or epistemic value directly. Only state differentials enter the inequality.
 Any manipulation of internal value functions that does not alter the actual induced state changes leaves:
-
-\[
-\Delta \mathrm{KQ},\; \Delta H,\; \Delta \Pi
-\]
+$$\Delta \mathrm{KQ}, \Delta H, \Delta \Pi$$
 
 unchanged. Therefore, admissibility is unaffected.
-
-If information value manipulation *does* alter state trajectories, the resulting entropy increase or coherence loss is captured by \(\Delta H\) or \(\Delta \mathrm{KQ}\), preserving constraint enforcement.
-
-Thus, value-theoretic manipulation cannot bypass population protection. ∎
+If information value manipulation does alter state trajectories, the resulting entropy increase or coherence loss is captured by $\Delta H$ or $\Delta \mathrm{KQ}$, preserving constraint enforcement.
+Thus, value-theoretic manipulation cannot bypass population protection. $\blacksquare$
 
 ---
 
