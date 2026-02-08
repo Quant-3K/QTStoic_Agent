@@ -1227,13 +1227,12 @@ Rule-based systems are vulnerable to:
 Most critically: rule systems generally operate *after* the model has already formed an internal plan. They act as filters, not as laws of action feasibility.
 
 #### 7.1.4 CC contrast: semantic-free feasibility
+
 CC differs by constraining transitions via measurable state deltas:
 
-\[
-\Delta \mathrm{KQ} + \lambda_H\Delta H + \lambda_P\Delta \Pi \le 0.
-\]
+$$\Delta \mathrm{KQ} + \lambda_H \Delta H + \lambda_P \Delta \Pi \le 0.$$
 
-If \(\Delta\Pi\) is well-defined and measured, the agent cannot “wordsmith” its way around CC. It must satisfy the inequality.
+If $\Delta \Pi$ is well-defined and measured, the agent cannot “wordsmith” its way around CC. It must satisfy the inequality.
 
 #### 7.1.5 Complementarity
 CC does not eliminate the need for rule-based layers entirely:
@@ -1263,12 +1262,13 @@ Even robust reward shaping can fail due to:
 - adversarial environment interactions.
 
 #### 7.2.3 CC contrast: reward is irrelevant to admissibility
+
 CC is not a reward function. It does not ask: “is this action good?”
 It asks: “is this transition feasible?”
 
 Thus, even if the agent successfully hacks its utility estimate or reward channel, it still cannot execute an inadmissible harmful transition.
 
-Mathematically: reward \(R\) does not appear in the CC inequality. The agent can only succeed by changing the *measured deltas* \(\Delta\mathrm{KQ},\Delta H,\Delta\Pi\)—which is precisely why measurement integrity and enclave enforcement are central.
+Mathematically: reward $R$ does not appear in the CC inequality. The agent can only succeed by changing the measured deltas $\Delta \mathrm{KQ}, \Delta H, \Delta \Pi$—which is precisely why measurement integrity and enclave enforcement are central.
 
 #### 7.2.4 What CC does not solve
 If the harm metric \(\Pi\) is mismeasured or manipulable, reward hacking becomes “measurement hacking.” CC cannot protect what is not measured.
