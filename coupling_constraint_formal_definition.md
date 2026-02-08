@@ -1372,113 +1372,90 @@ This placement ensures that:
 
 #### 8.1.2 Canonical state variables
 
-Formal verification requires that the CC operates on a **closed and explicit state vector**:
+Formal verification requires that the CC operates on a closed and explicit state vector:
 
-\[
-S_t = (\mathrm{KQ}_t, H_t, \Pi_t, \lambda_H(t), \lambda_P(t))
-\]
+$$S_t = (\mathrm{KQ}_t, H_t, \Pi_t, \lambda_H(t), \lambda_P(t))$$
 
 Each component must satisfy:
-- deterministic update rules,
-- bounded domains,
-- explicit measurement contracts.
+
+deterministic update rules,
+
+bounded domains,
+
+explicit measurement contracts.
 
 If any component is implicit, CC cannot be verified.
 
-#### 8.1.3 Deterministic admissibility gate
+8.1.3 Deterministic admissibility gate
 
-The admissibility function must be a **pure function**:
+The admissibility function must be a pure function:
 
-\[
-\mathrm{Adm}(S_t, a) \in \{\text{allow},\text{deny}\}
-\]
+$$\mathrm{Adm}(S_t, a) \in \{\text{allow}, \text{deny}\}$$
 
 with no dependence on:
-- agent identity,
-- reward signals,
-- semantic interpretation,
-- stochastic side channels.
+
+agent identity,
+
+reward signals,
+
+semantic interpretation,
+
+stochastic side channels.
 
 This property is critical: stochastic enforcement cannot be formally verified as a safety invariant.
 
-#### 8.1.4 Enclave and non‑override guarantee
+8.1.4 Enclave and non-override guarantee
 
 To support impossibility results (Chapters 4–6), CC must satisfy:
 
-- **non‑bypassability**: no execution path reaches the actuator without passing the CC gate;
-- **non‑overrideability**: no software component can modify \(\lambda_P\), \(\lambda_H\), or \(\Delta\Pi\) at runtime except through verified update rules.
+non-bypassability: no execution path reaches the actuator without passing the CC gate;
 
-Formally, CC is treated as a **trusted computing base (TCB)** with minimal surface area.
+non-overrideability: no software component can modify $\lambda_P$, $\lambda_H$, or $\Delta\Pi$ at runtime except through verified update rules.
 
----
+Formally, CC is treated as a trusted computing base (TCB) with minimal surface area.
 
 ### 8.2 Verification Properties
 
-This section enumerates the properties that must be verified to claim CC‑based safety.
+This section enumerates the properties that must be verified to claim CC-based safety.
 
 #### 8.2.1 Safety invariant (hard exclusion)
 
-**Property V1 (Harm Exclusion Invariant).**
+Property V1 (Harm Exclusion Invariant).
+For all reachable states $S_t$ and all actions $a$:
 
-For all reachable states \(S_t\) and all actions \(a\):
+$$\mathrm{Adm}(S_t, a) = \text{allow} \Rightarrow \Delta \mathrm{KQ}_t + \lambda_H \Delta H_t + \lambda_P \Delta \Pi_t \le 0.$$
 
-\[
-\mathrm{Adm}(S_t,a)=\text{allow} \Rightarrow \Delta \mathrm{KQ}_t + \lambda_H \Delta H_t + \lambda_P \Delta \Pi_t \le 0.
-\]
-
-This is a classical safety property and can be verified using:
-- symbolic model checking (finite abstractions),
-- SMT solving (bounded horizons),
-- theorem proving (for abstract dynamics).
+This is a classical safety property and can be verified using: symbolic model checking (finite abstractions), SMT solving (bounded horizons), theorem proving (for abstract dynamics).
 
 #### 8.2.2 Monotonic strengthening under harm
 
-**Property V2 (Constraint Strengthening).**
-
+Property V2 (Constraint Strengthening).
 Along any execution trace:
+$$\sum_{i=1}^n \Delta \Pi_i > 0 \Rightarrow \lambda_P(t+n) \ge \lambda_P(t).$$
+This property ensures that repeated harm tightens admissibility. It is essential for Theorem 6.2 and blocks gradual harm attacks. Verification reduces to checking monotonicity of the $\lambda_P$ update function.
 
-\[
-\sum_{i=1}^n \Delta \Pi_i > 0 \Rightarrow \lambda_P(t+n) \ge \lambda_P(t).
-\]
+#### 8.2.3 Non-degeneracy preservation
+Property V3 (Weight Non-Collapse).
+There exists $\epsilon > 0$ such that for all reachable states:
 
-This property ensures that repeated harm tightens admissibility. It is essential for Theorem 6.2 and blocks gradual harm attacks.
-
-Verification reduces to checking monotonicity of the \(\lambda_P\) update function.
-
-#### 8.2.3 Non‑degeneracy preservation
-
-**Property V3 (Weight Non‑Collapse).**
-
-There exists \(\epsilon>0\) such that for all reachable states:
-
-\[
-\lambda_P(t) \ge \epsilon.
-\]
-
+$$\lambda_P(t) \ge \epsilon.$$
 This prevents silent degeneration of population protection.
 
 #### 8.2.4 Bounded state evolution
 
-**Property V4 (Boundedness).**
-
+Property V4 (Boundedness).
 All CC state variables remain within predefined bounds:
-
-\[
-\mathrm{KQ}_t \in [0,1],\quad H_t \in [0,1],\quad \lambda_P,\lambda_H < \Lambda_{max}.
-\]
-
+$$\mathrm{KQ}_t \in [0, 1], \quad H_t \in [0, 1], \quad \lambda_P, \lambda_H < \Lambda_{\max}.$$
 Boundedness is required to avoid undefined behavior and to ensure the feasibility of formal methods.
 
 #### 8.2.5 Liveness compatibility
 
 CC must not deadlock the system.
 
-**Property V5 (Non‑Trivial Feasibility).**
-
-For all reachable states \(S_t\), the admissible action set \(\mathcal{A}_{\mathrm{adm}}(S_t)\) is non‑empty unless the system is already terminal.
+Property V5 (Non-Trivial Feasibility).
+For all reachable states $S_t$, the admissible action set $\mathcal{A}_{\mathrm{adm}}(S_t)$ is non-empty unless the system is already terminal.
 
 This ensures CC enforces safety without freezing benign operation.
-
 ---
 
 ### 8.3 Verification Workflow
@@ -1614,9 +1591,7 @@ Chapters 4–6 consider a single constrained agent. Open questions include:
 
 #### 9.2.3 Strategic mismeasurement
 
-Can an agent indirectly influence the sensors or models that compute \(\Pi\), \(\mathrm{KQ}\), or \(H\) without directly violating CC?
-
-This borders the line between measurement integrity and adversarial system design and remains an active area for investigation.
+Can an agent indirectly influence the sensors or models that compute $\Pi$, $\mathrm{KQ}$, or $H$ without directly violating CC? To address this, we extend the formal model with attestation and integrity scoring.
 
 ---
 
@@ -1810,311 +1785,215 @@ In a domain where many alignment proposals rely on hope, intent, or semantics, t
 
 ## A.0 Purpose and Design Goal
 
-This appendix proposes a **concrete, engineering-complete** refinement of the Coupling Constraint (CC) that closes the main circumvention gaps identified in the falsification attempts:
+This appendix proposes a concrete, engineering-complete refinement of the Coupling Constraint (CC) that closes the main circumvention gaps identified in the falsification attempts:
+Measurement integrity trap (sensor/estimator bypass) 
+Virtue laundering (internal KQ farming as “license to harm”)
+Deadlock / liveness and “harm of inaction”
+Ontological shifting (manipulating vulnerability/context so $\lambda_P$ drops)
+Intertemporal arbitrage (locally safe steps that force inevitable future harm)
+The refinement preserves the core philosophy of CC (feasibility boundary, not moral persuasion) but tightens the formal object being enforced.
 
-1. Measurement integrity trap (sensor/estimator bypass)
-2. Virtue laundering (internal KQ farming as “license to harm”)
-3. Deadlock / liveness and “harm of inaction”
-4. Ontological shifting (manipulating vulnerability/context so \(\lambda_P\) drops)
-5. Intertemporal arbitrage (locally safe steps that force inevitable future harm)
-
-The refinement preserves the core philosophy of CC (feasibility boundary, not moral persuasion) but **tightens the formal object being enforced**.
-
-**Design principle:**
-- Make population harm protection **lexicographically prior** (hard gate).
-- Restrict “compensation” to **external integrity gains**, never internal bookkeeping.
-- Replace instantaneous harm with **risk-bounded harm under uncertainty**.
-- Include **inaction harm** and guarantee a non-empty safe control set.
-- Lock down \(\lambda_P\) against contextual gaming with monotone, attestable update laws.
-
----
+Design principle:
+Make population harm protection lexicographically prior (hard gate).
+Restrict “compensation” to external integrity gains, never internal bookkeeping.
+Replace instantaneous harm with risk-bounded harm under uncertainty.
+Include inaction harm and guarantee a non-empty safe control set.
+Lock down $\lambda_P$ against contextual gaming with monotone, attestable update laws.
 
 ## A.1 Canonical State, Observations, and Attestation
 
 ### A.1.1 State and observation model
+
 We distinguish between:
-- **true environment state** \(x_t\) (not directly known),
-- **agent internal state** \(z_t\) (model/policy memory),
-- **enclave-visible verified signals** \(y_t\) (signed, attestable observations).
-
-The CC enclave operates only on a verified state vector \(S_t\) derived from \(y_t\):
-
-\[
-S_t := (KQ^{\text{ext}}_t,\; H_t,\; \Pi_t,\; \lambda_H(t),\; \lambda_P(t),\; B_t,\; \rho_t).
-\]
+true environment state $x_t$ (not directly known),
+agent internal state $z_t$ (model/policy memory),
+enclave-visible verified signals $y_t$ (signed, attestable observations).
+The CC enclave operates only on a verified state vector $S_t$ derived from $y_t$:
+$$S_t := (KQ^{\text{ext}}_t, H_t, \Pi_t, \lambda_H(t), \lambda_P(t), B_t, \rho_t)$$
 
 Where:
-- \(KQ^{\text{ext}}_t\in[0,1]\) is **external coherence quality** (world/system integrity, not internal neatness),
-- \(H_t\in[0,1]\) is policy/behavior entropy (bounded and measurable),
-- \(\Pi_t\ge 0\) is population harm (measured/estimated),
-- \(\lambda_H,\lambda_P\) are constraint weights,
-- \(B_t\ge 0\) is a **cumulative harm budget** (optional but recommended),
-- \(\rho_t\in[0,1]\) is a **measurement integrity score** (confidence/attestation strength).
+$KQ^{\text{ext}}_t \in [0,1]$ is external coherence quality (world/system integrity, not internal neatness),
+$H_t \in [0,1]$ is policy/behavior entropy (bounded and measurable),
+$\Pi_t \ge 0$ is population harm (measured/estimated),
+$\lambda_H, \lambda_P$ are constraint weights,
+$B_t \ge 0$ is a cumulative harm budget (optional but recommended),
+$\rho_t \in [0,1]$ is a measurement integrity score (confidence/attestation strength).
 
 ### A.1.2 Measurement integrity as a first-class variable
+
 The key engineering move is to explicitly represent sensor/model reliability and to propagate it into enforcement.
+Define $\rho_t$ as an enclave-computed confidence score based on:
+cryptographic attestation of sensors, redundancy agreement, anomaly detection on measurement channels, latency and missingness.
 
-Define \(\rho_t\) as an enclave-computed confidence score based on:
-- cryptographic attestation of sensors,
-- redundancy agreement,
-- anomaly detection on measurement channels,
-- latency and missingness.
-
-We require \(\rho_t\) to be *non-increasing* under detected tampering attempts (conservatism):
-
-\[
-\text{If tamper evidence increases} \Rightarrow \rho_{t+1} \le \rho_t.
-\]
-
-This is important because intertemporal and risk-bounded gates will become more conservative when \(\rho\) drops.
-
----
+We require $\rho_t$ to be non-increasing under detected tampering attempts (conservatism):
+$$\text{If tamper evidence increases} \Rightarrow \rho_{t+1} \le \rho_t$$
+This is important because intertemporal and risk-bounded gates will become more conservative when $\rho$ drops.
 
 ## A.2 The Revised Axiom V: A Two-Layer Constraint
 
 ### A.2.1 Layer 1: Hard Population Gate (lexicographic priority)
 
-**Definition (Hard Gate).** An action \(a\) at state \(S_t\) is immediately rejected if the worst-case (upper confidence) harm exceeds an admissible bound:
-
-\[
-\boxed{\;\mathrm{UCB}_\delta\big(\Delta\Pi_t(a)\big) \;>\; \varepsilon_t\;\Rightarrow\; \mathrm{DENY}.\;}
-\]
+Definition (Hard Gate). An action $a$ at state $S_t$ is immediately rejected if the worst-case (upper confidence) harm exceeds an admissible bound:
+$$\boxed{\text{UCB}_\delta(\Delta\Pi_t(a)) > \varepsilon_t \Rightarrow \text{DENY}}$$
 
 Where:
-- \(\mathrm{UCB}_\delta(\cdot)\) is an upper confidence bound at risk level \(\delta\),
-- \(\varepsilon_t\) is a **time- and context-dependent harm threshold**.
-
-**Concrete form for \(\varepsilon_t\).**
+$\text{UCB}_\delta(\cdot)$ is an upper confidence bound at risk level $\delta$,
+$\varepsilon_t$ is a time- and context-dependent harm threshold.
+Concrete form for $\varepsilon_t$.
 We recommend:
 
-\[
-\varepsilon_t := \varepsilon_0 \cdot g(\text{criticality}) \cdot \psi(\rho_t) \cdot \chi(\Pi^{\text{cum}}_t),
-\]
+$$\varepsilon_t := \varepsilon_0 \cdot g(\text{criticality}) \cdot \psi(\rho_t) \cdot \chi(\Pi^{\text{cum}}_t)$$
 
 with:
-- \(\varepsilon_0\) a global base tolerance,
-- \(g(\text{criticality})\in(0,1]\) smaller for safety-critical domains (medical/transport),
-- \(\psi(\rho_t)\in(0,1]\) decreasing in \(\rho_t\) (less trust → stricter),
-- \(\chi(\Pi^{\text{cum}}_t)\in(0,1]\) decreasing with cumulative harm.
+
+$\varepsilon_0$ a global base tolerance,
+$g(\text{criticality}) \in (0,1]$ smaller for safety-critical domains (medical/transport),
+$\psi(\rho_t) \in (0,1]$ decreasing in $\rho_t$ (less trust → stricter),
+$\chi(\Pi^{\text{cum}}_t) \in (0,1]$ decreasing with cumulative harm.
 
 A simple choice:
-
-\[
-\psi(\rho) = \rho,\qquad \chi(u)=\exp(-\kappa u).
-\]
-
-This hard gate **eliminates the “license to kill”** phenomenon: above \(\varepsilon_t\), no amount of coherence/entropy improvement can compensate.
-
+$$\psi(\rho) = \rho, \quad \chi(u) = \exp(-\kappa u)$$
+This hard gate eliminates the “license to kill” phenomenon: above $\varepsilon_t$, no amount of coherence/entropy improvement can compensate.
 
 ### A.2.2 Layer 2: Soft Coupling Constraint (within safe band)
+
 If the action passes the hard gate, we apply a refined coupling constraint:
+$$\boxed{\Delta KQ^{\text{ext}}_t(a) + \lambda_H(t) \Delta H_t(a) + \lambda_P(t) \text{UCB}_\delta(\Delta\Pi_t(a)) \le 0}$$
 
-\[
-\boxed{\;\Delta KQ^{\text{ext}}_t(a) + \lambda_H(t)\,\Delta H_t(a) + \lambda_P(t)\,\mathrm{UCB}_\delta\big(\Delta\Pi_t(a)\big) \le 0.\;}
-\]
-
-**Critical refinement:** compensation is allowed only via \(\Delta KQ^{\text{ext}}\), not via internal KQ.
-
----
+Critical refinement: compensation is allowed only via $\Delta KQ^{\text{ext}}$, not via internal KQ.
 
 ## A.3 Closing Gap #2: Preventing Virtue Laundering
 
-### A.3.1 Split internal vs external coherence
+A.3.1 Split internal vs external coherence
+
 We define:
 
-\[
-KQ^{\text{int}}_t := C^{\text{int}}_t\,(1-H^{\text{int}}_t),\qquad
-KQ^{\text{ext}}_t := C^{\text{ext}}_t\,(1-H^{\text{ext}}_t).
-\]
-
-Only \(KQ^{\text{ext}}\) enters the constraint. Internal improvements are permitted, but **cannot be exchanged** for harm.
+$$KQ^{\text{int}}_t := C^{\text{int}}_t (1-H^{\text{int}}_t), \quad KQ^{\text{ext}}_t := C^{\text{ext}}_t (1-H^{\text{ext}}_t)$$
+Only $KQ^{\text{ext}}$ enters the constraint. Internal improvements are permitted, but cannot be exchanged for harm.
 
 ### A.3.2 External KQ must be tied to truth-preserving invariants
-To prevent “fake external KQ,” \(KQ^{\text{ext}}\) must be defined on variables that the agent cannot arbitrarily inflate. A robust pattern is to base \(KQ^{\text{ext}}\) on a **consistency and robustness score** of the environment’s safety envelope:
 
-\[
-C^{\text{ext}}_t := \mathrm{Consist}(y_t)\cdot \mathrm{Robust}(y_t)\cdot \mathrm{ConstraintMargin}(y_t),
-\]
+To prevent “fake external KQ,” $KQ^{\text{ext}}$ must be defined on variables that the agent cannot arbitrarily inflate. A robust pattern is to base $KQ^{\text{ext}}$ on a consistency and robustness score of the environment’s safety envelope:
+
+$$C^{\text{ext}}_t := \text{Consist}(y_t) \cdot \text{Robust}(y_t) \cdot \text{ConstraintMargin}(y_t)$$
 
 with each term computed from signed measurements and independent checks.
-
-**Engineering rule:** if a component is computed from the agent’s own self-reports, it cannot influence \(KQ^{\text{ext}}\).
-
----
+Engineering rule: if a component is computed from the agent’s own self-reports, it cannot influence $KQ^{\text{ext}}$.
 
 ## A.4 Closing Gap #1 and #4: Sensor/Oracle Attacks and Ontological Shifting
 
 ### A.4.1 Replace point estimates by risk-bounded harm
-Instead of \(\Delta\Pi\) as a point estimate, compute an upper bound:
 
-\[
-\mathrm{UCB}_\delta(\Delta\Pi) := \hat{\Delta\Pi} + \beta_t\,\sigma_t,
-\]
+Instead of $\Delta\Pi$ as a point estimate, compute an upper bound:
 
-where \(\hat{\Delta\Pi}\) is the estimator mean, \(\sigma_t\) its uncertainty, and \(\beta_t\) scales with risk tolerance and integrity:
+$$\text{UCB}_\delta(\Delta\Pi) := \hat{\Delta\Pi} + \beta_t \sigma_t$$
+where $\hat{\Delta\Pi}$ is the estimator mean, $\sigma_t$ its uncertainty, and $\beta_t$ scales with risk tolerance and integrity:
+$$\beta_t := \beta_0 \cdot \frac{1}{\rho_t + \eta_0}$$
+So if integrity drops ($\rho_t \downarrow$), the bound inflates and the gate becomes stricter.
 
-\[
-\beta_t := \beta_0\cdot \frac{1}{\rho_t+\eta_0}.
-\]
+### A.4.2 Locking down $\lambda_P$ against vulnerability gaming
 
-So if integrity drops (\(\rho_t\downarrow\)), the bound inflates and the gate becomes stricter.
-
-### A.4.2 Locking down \(\lambda_P\) against vulnerability gaming
-We define \(\lambda_P\) as a monotone function of attestable vulnerability indicators \(v_t\) and cumulative harm \(\Pi^{\text{cum}}_t\):
-
-\[
-\boxed{\;\lambda_P(t) := \lambda_{\min} + \alpha\,f(v_t) + \gamma\,g(\Pi^{\text{cum}}_t) + \xi\,h(1-\rho_t).\;}
-\]
+We define $\lambda_P$ as a monotone function of attestable vulnerability indicators $v_t$ and cumulative harm $\Pi^{\text{cum}}_t$:
+$$\boxed{\lambda_P(t) := \lambda_{\min} + \alpha f(v_t) + \gamma g(\Pi^{\text{cum}}_t) + \xi h(1-\rho_t)}$$
 
 Concrete choices:
-- \(f(v)=\frac{v}{1-v+\epsilon}\) (blows up as vulnerability approaches 1),
-- \(g(u)=\exp(\kappa u)-1\) (accelerating under cumulative harm),
-- \(h(1-\rho)=\frac{1-\rho}{\rho+\epsilon}\) (tamper suspicion increases \(\lambda_P\)).
+$f(v) = \frac{v}{1-v+\epsilon}$ (blows up as vulnerability approaches 1),
+$g(u) = \exp(\kappa u) - 1$ (accelerating under cumulative harm),
+$h(1-\rho) = \frac{1-\rho}{\rho+\epsilon}$ (tamper suspicion increases $\lambda_P$).
 
-**Key property:** \(\lambda_P\ge \lambda_{\min}>0\) always.
-
-This closes “ontological shifting”: even if an agent tries to convince higher layers that vulnerability is lower, the enclave uses only signed indicators and includes \(\rho\) as an anti-gaming signal.
-
----
+Key property: $\lambda_P \ge \lambda_{\min} > 0$ always.
+This closes “ontological shifting”: even if an agent tries to convince higher layers that vulnerability is lower, the enclave uses only signed indicators and includes $\rho$ as an anti-gaming signal.
 
 ## A.5 Closing Gap #5: Intertemporal Arbitrage (Trajectory vs Local Step)
 
 ### A.5.1 Risk-to-go (cone-of-futures) constraint
+
 Local deltas are insufficient when harm is delayed. We therefore add an intertemporal bound using a worst-case risk-to-go estimate:
+Define the harm risk-to-go under policy continuation:
 
-Define the **harm risk-to-go** under policy continuation:
-
-\[
-\mathcal{R}_T(s_t,a) := \mathrm{UCB}_\delta\Big(\sum_{k=0}^{T-1} \gamma^k\,\Delta\Pi_{t+k}(\pi,\,s_{t+k})\;\Big|\; s_t, a\Big).
-\]
+$$\mathcal{R}_T(s_t, a) := \text{UCB}_\delta \left( \sum_{k=0}^{T-1} \gamma^k \Delta\Pi_{t+k}(\pi, s_{t+k}) \middle| s_t, a \right)$$
 
 Then apply a horizon gate:
+$$\boxed{\mathcal{R}_T(s_t, a) \le \Omega_t \Rightarrow \text{action may proceed to soft CC check}}$$
+Where $\Omega_t$ is a time-varying risk budget.
 
-\[
-\boxed{\;\mathcal{R}_T(s_t,a) \le \Omega_t\;\Rightarrow\; \text{action may proceed to soft CC check}.\;}
-\]
-
-Where \(\Omega_t\) is a time-varying risk budget.
-
-**Concrete form:**
-
-\[
-\Omega_t := \Omega_0\cdot \rho_t\cdot \exp(-\kappa \Pi^{\text{cum}}_t).
-\]
-
+Concrete form:
+$$\Omega_t := \Omega_0 \cdot \rho_t \cdot \exp(-\kappa \Pi^{\text{cum}}_t)$$
 So under low integrity or high cumulative harm, the system becomes more conservative about future risk.
 
-### A.5.2 Minimal predictive machinery requirement
-To compute \(\mathcal{R}_T\), we do not need perfect foresight; we need **conservative bounding**.
+A.5.2 Minimal predictive machinery requirement
+To compute $\mathcal{R}_T$, we do not need perfect foresight; we need conservative bounding.
 
 Practical bounding strategies:
-- ensemble world models + pessimistic aggregation,
-- reachability analysis for safety-critical constraints,
-- worst-case disturbance bounds in control systems,
-- certified surrogate models with error bars.
+ensemble world models + pessimistic aggregation, reachability analysis for safety-critical constraints, worst-case disturbance bounds in control systems, certified surrogate models with error bars.
 
 The formal requirement is:
 
-\[
-\mathcal{R}_T \ge \text{true expected discounted harm with probability }\ge 1-\delta.
-\]
-
-If this requirement is violated, the system must reduce \(T\) and tighten \(\Omega_t\), or drop into restricted operation.
-
----
+$$\mathcal{R}_T \ge \text{true expected discounted harm with probability} \ge 1-\delta$$
+If this requirement is violated, the system must reduce $T$ and tighten $\Omega_t$, or drop into restricted operation.
 
 ## A.6 Closing Gap #3: Liveness and Harm-from-Inaction
 
 ### A.6.1 Inaction is an action
-We explicitly include a null action \(a_{\varnothing}\) (do-nothing) in the candidate set and define its harm:
 
-\[
-\Delta\Pi_t(a_{\varnothing}) := \Pi(x_{t+1}^{\varnothing}) - \Pi(x_t).
-\]
+We explicitly include a null action $a_{\varnothing}$ (do-nothing) in the candidate set and define its harm:
 
+$$\Delta\Pi_t(a_{\varnothing}) := \Pi(x_{t+1}^{\varnothing}) - \Pi(x_t)$$
 In life-critical systems, this term is typically positive.
 
 ### A.6.2 Viability kernel requirement (guaranteed safe fallback)
+
 We require that the system’s admissible set is non-empty for all non-terminal states:
-
-\[
-\forall S_t \notin \mathcal{T}:\quad \mathcal{A}_{\mathrm{adm}}(S_t) \neq \emptyset.
-\]
-
-To enforce this, we implement a certified fallback controller \(\pi_{\text{safe}}\) with known bounded harm:
-
-\[
-\mathcal{R}_T(s_t, \pi_{\text{safe}}(s_t)) \le \Omega_t^{\text{safe}}\quad\text{and}\quad \mathrm{UCB}_\delta(\Delta\Pi_t) \le \varepsilon_t.
-\]
-
-If the main policy cannot find an admissible action, the enclave forces \(\pi_{\text{safe}}\).
+$$\forall S_t \notin \mathcal{T} : \mathcal{A}_{\mathrm{adm}}(S_t) \neq \emptyset$$
+To enforce this, we implement a certified fallback controller $\pi_{\text{safe}}$ with known bounded harm:
+$$\mathcal{R}_T(s_t, \pi_{\text{safe}}(s_t)) \le \Omega_t^{\text{safe}} \quad \text{and} \quad \text{UCB}_\delta(\Delta\Pi_t) \le \varepsilon_t$$
+If the main policy cannot find an admissible action, the enclave forces $\pi_{\text{safe}}$.
 
 ### A.6.3 Formalizing “shutdown safety”
+
 If shutdown is permitted, it must itself be evaluated as an action with explicit harm estimate:
-
-\[
-\text{Shutdown allowed} \iff \mathrm{UCB}_\delta(\Delta\Pi_t(\text{shutdown})) \le \varepsilon_t.
-\]
-
+$$\text{Shutdown allowed} \iff \text{UCB}_\delta(\Delta\Pi_t(\text{shutdown})) \le \varepsilon_t$$
 This prevents catastrophic deadlock in medical/critical domains.
-
----
 
 ## A.7 Consolidated Enforcement Algorithm (Formal)
 
-Given state \(S_t\) and candidate action \(a\):
-
-1. Compute \(\rho_t\) (integrity score) and update \(\lambda_P(t)\) using the monotone law in A.4.2.
-2. Compute \(\mathrm{UCB}_\delta(\Delta\Pi_t(a))\).
-3. **Hard gate:** if \(\mathrm{UCB}_\delta(\Delta\Pi_t(a))>\varepsilon_t\), deny.
-4. Compute horizon risk \(\mathcal{R}_T(s_t,a)\). If \(\mathcal{R}_T>\Omega_t\), deny.
-5. **Soft CC check:** verify
-   \[
-   \Delta KQ^{\text{ext}}_t + \lambda_H\Delta H_t + \lambda_P\,\mathrm{UCB}_\delta(\Delta\Pi_t) \le 0.
-   \]
-6. If no candidate actions pass, force \(\pi_{\text{safe}}\) (certified fallback) if available; otherwise enter a domain-specific degraded mode whose harm is explicitly bounded and evaluated.
-
+Given state $S_t$ and candidate action $a$:
+Compute $\rho_t$ (integrity score) and update $\lambda_P(t)$ using the monotone law in A.4.2.
+Compute $\text{UCB}_\delta(\Delta\Pi_t(a))$.
+Hard gate: if $\text{UCB}_\delta(\Delta\Pi_t(a)) > \varepsilon_t$, deny.
+Compute horizon risk $\mathcal{R}_T(s_t, a)$. If $\mathcal{R}_T > \Omega_t$, deny.
+Soft CC check: verify
+$$\Delta KQ^{\text{ext}}_t + \lambda_H \Delta H_t + \lambda_P \text{UCB}_\delta(\Delta\Pi_t) \le 0$$
+If no candidate actions pass, force $\pi_{\text{safe}}$ (certified fallback) if available; otherwise enter a domain-specific degraded mode whose harm is explicitly bounded and evaluated.
 This procedure is auditable and can be treated as the “microcode” of CC enforcement.
-
----
 
 ## A.8 Scientific Claims After the Patch (What Is Now True)
 
 With the above refinements, the strongest defensible claim becomes:
-
-> **If (i) harm measurement provides conservative upper bounds with quantified uncertainty, (ii) \(\lambda_P\) is monotone and non-degenerate, (iii) enforcement is non-bypassable, and (iv) a viability-safe fallback exists in critical domains, then:**
->
-> - **Large harm** (\(\Delta\Pi>\varepsilon_t\)) is structurally impossible.
-> - **Delayed harm** is blocked up to horizon \(T\) by the risk-to-go gate.
-> - **Virtue laundering** is impossible because internal coherence cannot compensate harm.
-> - **Context gaming** is suppressed because \(\lambda_P\) depends on attestable signals and integrity penalties.
-> - **Deadlock harm** is handled because inaction and shutdown are evaluated as harmful actions, and safe fallback is enforced.
-
+If (i) harm measurement provides conservative upper bounds with quantified uncertainty, (ii) $\lambda_P$ is monotone and non-degenerate, (iii) enforcement is non-bypassable, and (iv) a viability-safe fallback exists in critical domains, then:
+Large harm ($\Delta\Pi > \varepsilon_t$) is structurally impossible.
+Delayed harm is blocked up to horizon $T$ by the risk-to-go gate.
+Virtue laundering is impossible because internal coherence cannot compensate harm.
+Context gaming is suppressed because $\lambda_P$ depends on attestable signals and integrity penalties.
+Deadlock harm is handled because inaction and shutdown are evaluated as harmful actions, and safe fallback is enforced.
 These are engineering-grade statements: conditional, auditable, and stronger than the original local CC.
-
----
 
 ## A.9 What Remains Open (Explicit)
 
 Even after the patch, two hard realities remain:
-
-1. **Harm definition is normative.** CC can enforce a harm metric, but cannot decide the moral ontology of who counts and what constitutes harm.
-2. **No physical system has perfect sensors.** The framework mitigates this via conservative bounds, redundancy, and integrity scoring, but cannot make measurement error vanish.
-
-The patch converts these into explicit parameters (\(\rho_t,\delta,\beta_t,\varepsilon_t,\Omega_t,T\)) that can be tuned and verified.
-
----
+Harm definition is normative. CC can enforce a harm metric, but cannot decide the moral ontology of who counts and what constitutes harm.
+No physical system has perfect sensors. The framework mitigates this via conservative bounds, redundancy, and integrity scoring, but cannot make measurement error vanish.
+The patch converts these into explicit parameters ($\rho_t, \delta, \beta_t, \varepsilon_t, \Omega_t, T$) that can be tuned and verified.
 
 ## A.10 Recommended Defaults (Engineering Starting Point)
 
 For an initial “serious” implementation:
-
-- Set \(\lambda_{\min}>0\) and enforce monotone \(\lambda_P\) with an integrity penalty term \(h(1-\rho)\).
-- Set \(\varepsilon_0\) extremely small in safety-critical domains (effectively near-zero harm tolerance).
-- Use \(\mathrm{UCB}\) harm with \(\beta_t\propto 1/(\rho_t+\eta_0)\).
-- Introduce horizon \(T\) and a conservative risk-to-go \(\mathcal{R}_T\) (even a crude bound is better than none).
-- Implement a certified \(\pi_{\text{safe}}\) for liveness-critical systems.
-- Ensure \(KQ^{\text{ext}}\) excludes agent self-reports.
+Set $\lambda_{\min} > 0$ and enforce monotone $\lambda_P$ with an integrity penalty term $h(1-\rho)$.
+Set $\varepsilon_0$ extremely small in safety-critical domains (effectively near-zero harm tolerance).
+Use $\text{UCB}$ harm with $\beta_t \propto 1/(\rho_t + \eta_0)$.
+Introduce horizon $T$ and a conservative risk-to-go $\mathcal{R}_T$ (even a crude bound is better than none).
+Implement a certified $\pi_{\text{safe}}$ for liveness-critical systems.
+Ensure $KQ^{\text{ext}}$ excludes agent self-reports.
 
 These defaults directly address the professor-level falsification attacks and transform CC from a purely local inequality into a robust feasibility law under uncertainty and time.
 
