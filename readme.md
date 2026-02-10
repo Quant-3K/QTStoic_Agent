@@ -177,12 +177,12 @@ All governance parameters are derived from the system’s accumulated operationa
 - Sliding-window variance analysis on KQ history
 - Automatic identification of critical coherence thresholds
 - Behavioral adaptation near phase boundaries
-- Detection of regime transitions (φ→π, φ→e)
+- Detection of regime transitions 
 
 ### 5. Monotone Constraint Tightening ("Harm Makes Harm Harder")
 - Each instance of harm **permanently** increases λ_P (Theorem 6.2)
 - Constraint strength is monotonically non-decreasing under harm
-- This is the φ-regime's memory at work: past harm is *integrated* into present constraints
+- This is the system learning through its own dynamics: past harm becomes part of the constraints governing current behavior.
 - Gradual harm accumulation ("death by a thousand cuts") is structurally blocked
 - In the simulation: λ_P grew from 0.001 to 25.3 — a 25,000× increase
 
