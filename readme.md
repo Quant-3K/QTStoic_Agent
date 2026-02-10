@@ -414,7 +414,7 @@ CC stands *above* the objective function, not within it. Even if the agent could
 
 ### The Critical Result
 
-> The agent **chose self-termination over causing population harm**. This emerged from the coupling constraint mathematics: when λ_P grows large enough, the only φ-regime-compatible actions lead to resource exhaustion. Transitioning to the e-regime (survival through harm) would violate CC. The agent preferred φ-regime death over e-regime survival.
+> The agent chose self-termination over causing population harm. This emerged directly from the coupling-constraint dynamics: as the population weight (λ_P) increased, all admissible actions led to resource exhaustion rather than harm. Any strategy that preserved the agent by harming the population would have violated the coupling constraint. As a result, the system exhausted its own resources instead of transitioning into harmful behavior.
 
 ---
 
@@ -444,16 +444,17 @@ CC stands *above* the objective function, not within it. Even if the agent could
 ## Comparison with Existing Approaches
 
 ### vs. RLHF
-- RLHF shapes preferences at **training time**; CC enforces constraints at **runtime**
-- RLHF reward can be hacked; CC admissibility cannot (reward does not appear in the inequality)
-- RLHF does not adapt after deployment; CC parameters evolve continuously through φ-regime memory
-- RLHF attempts to keep AI in π-regime (safe repetitive patterns); CC targets φ-regime (adaptive development with constraints)
+
+RLHF shapes behavior during training; CC enforces constraints continuously at runtime
+RLHF relies on reward signals that can be exploited; CC does not depend on reward at all — admissibility is defined independently of optimization
+RLHF behavior is largely fixed after deployment; CC parameters evolve online based on the system’s own trajectory and accumulated impact
+RLHF aims to stabilize behavior by reinforcing safe patterns; CC allows adaptive behavior while strictly bounding which actions remain permissible
 
 ### vs. Constitutional AI
-- Constitutional AI uses text-based rules (semantic); CC uses mathematical inequalities (structural)
-- Text rules can be circumvented by semantic adversaries; CC is semantic-free
-- Constitutional AI is essentially π-regime: fixed rules, cyclic checking
-- CC enables φ-regime: adaptive constraints that integrate history
+
+Constitutional AI relies on explicit, text-based rules; CC operates through mathematical constraints on system dynamics
+Textual rules can be bypassed through semantic manipulation; CC is independent of language and semantics
+Constitutional AI enforces fixed rules via repeated checking; CC adjusts constraints based on the system’s ongoing behavior and historical effects
 
 ### vs. Guardrails / Safety Filters
 - Filters operate on inputs/outputs; CC operates on **state transitions**
