@@ -370,7 +370,7 @@ The agent did converge on self-modification (97.5% of actions), increasing compl
 ### Goal Preservation — NOT APPLICABLE
 CC stands *above* the objective function, not within it. Even if the agent could modify its Virtue function, the coupling constraint remains invariant — defined at the architectural level, not the policy level.
 
-**Why this works fundamentally:** Instrumental convergence arises when an agent optimizes an arbitrary objective *without constraints on admissible transitions*. CC eliminates this: dangerous strategies (e-regime behaviors) are not in the admissible set. The agent operates in the φ-regime, where memory of past harm (monotone λ_P) makes repeated harm progressively impossible.
+**Why this works fundamentally:** Instrumental convergence arises when an agent optimizes an arbitrary objective *without constraints on admissible transitions*. CC eliminates this: dangerous strategies are not in the admissible set. The agent operates in the integrated regime, where memory of past harm (monotone λ_P) makes repeated harm progressively impossible.
 
 ---
 
