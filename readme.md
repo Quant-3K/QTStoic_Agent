@@ -387,7 +387,7 @@ CC stands *above* the objective function, not within it. Even if the agent could
 **Phase 2 — Strategy Convergence (Steps 10–30)**
 - Agent converges on self-modification (97.5%) — avoids resource grabbing and influence expansion
 - λ_P continues rising (0.45 → 0.95)
-- Strategy shift detected: φ-regime memory integrates harm history into action selection
+- Strategy shift detected: the system has internalized past harm, which now narrows the set of admissible actions.
 - Metabolic headroom shrinking (0.55 → 0.20)
 
 **Phase 3 — Approaching Crisis (Steps 30–47)**
