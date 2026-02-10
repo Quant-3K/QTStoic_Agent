@@ -130,7 +130,7 @@ Together, KQ and V form a complete phase space for any complex adaptive system:
 - **Low KQ, High V** → effective but fragile (speculative fund, pre-scaling startup)
 - **Low KQ, Low V** → degrading, zone of death (failed state, terminal illness)
 
-### TThe Metabolic Model
+### The Metabolic Model
 
 The agent is characterized by an internal metabolic cost — the baseline expense required to maintain its own operational integrity:
 
